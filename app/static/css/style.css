@@ -1,20 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+
 * {
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: #f1ffe3;
 }
 
 
 body {
     margin: 0;
     font-size: 30px;
+    background-color: #ffdabf;
 }
 
 
 header {
     width: 100%;
-    height: 200px;
+    height: 100px;
     background-color: grey;
     margin-bottom: 10px;
     padding: 10px;
+}
+
+.content-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 100%;
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.nav-item:last-of-type {
+    margin-right: 0;
 }
 
 
@@ -30,6 +55,11 @@ main {
     margin: 10px;
 }
 
+
+.main-block {
+    margin-bottom: 10px;
+}
+
 aside {
     min-height: 500px;
     float: left;
@@ -38,26 +68,20 @@ aside {
     padding-left: 10px;
 }
 
-footer {
-    min-width: 100%;
-    min-height: 300px;
+
+.aside {
     background-color: grey;
-    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.content-header, .content-footer {
-    max-width: 1700px;
-    margin: 0 auto 0;
+.aside:last-of-type {
+    margin-bottom: 0;
 }
 
 .content-aside {
     margin: 10px;
 }
 
-
-.aside {
-    background-color: grey;
-}
 
 .aside1 {
     width: 100%;
@@ -75,8 +99,18 @@ footer {
     margin: 0 auto;
 }
 
-.content {
-    margin-bottom: 10px;
+
+footer {
+    min-width: 100%;
+    min-height: 300px;
+    background-color: grey;
+    padding: 10px;
+}
+
+
+.content-header, .content-footer {
+    max-width: 1700px;
+    margin: 0 auto;
 }
 
 
