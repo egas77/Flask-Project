@@ -17,8 +17,8 @@ def load_user(user_id):
     return User.get_query().get(user_id)
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
@@ -30,7 +30,7 @@ def register():
         session.add(user)
         session.commit()
         return redirect(url_for('login'))
-    return render_template('register.html', register_form=register_form, title=title)
+    return render_template('registration.html', register_form=register_form, title=title)
 
 
 @app.route('/login')
