@@ -1,0 +1,17 @@
+main {
+    min-height: 500px;
+    float: left;
+    background-color: #FDF2FF;
+    width: 70%;
+    box-sizing: border-box;
+
+}
+
+.content-main {
+    margin: 10px;
+}
+
+
+.main-block {
+    margin-bottom: 10px;
+}

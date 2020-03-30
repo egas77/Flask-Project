@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import "header.css";
+@import "main.css";
+@import "aside.css";
+@import "footer.css";
 
 
 * {
@@ -8,7 +12,7 @@
 
 a {
     text-decoration: none;
-    color: #f1ffe3;
+    color: #FDF2FF;
 }
 
 
@@ -19,97 +23,16 @@ body {
 }
 
 
-header {
-    width: 100%;
-    height: 100px;
-    background-color: #282536;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.content-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    height: 100%;
-}
-
-.nav-item {
-    margin-right: 20px;
-}
-
-.nav-item:last-of-type {
-    margin-right: 0;
-}
-
-
-main {
-    min-height: 500px;
-    float: left;
-    background-color: #FDF2FF;
-    width: 70%;
-    box-sizing: border-box;
-    border-left: 5px solid #282536;
-    border-top: 5px solid #282536;
-}
-
-.content-main {
-    margin: 10px;
-}
-
-
-.main-block {
-    margin-bottom: 10px;
-}
-
-aside {
-    min-height: 500px;
-    float: left;
-    width: 30%;
-    box-sizing: border-box;
-    padding-left: 10px;
-}
-
-
-.aside {
-    border-left: 5px solid #282536;
-    border-top: 5px solid #282536;
-    background-color: #FDF2FF;
-    margin-bottom: 10px;
-}
-
-.aside:last-of-type {
-    margin-bottom: 0;
-}
-
-.content-aside {
-    margin: 10px;
-}
-
-
-.aside1 {
-    width: 100%;
-    min-height: 150px;
-}
-
-.aside2 {
-    width: 100%;
-    height: 50%;
-}
-
-
 .wrapper {
     max-width: 1400px;
     margin: 0 auto;
 }
 
 
-footer {
-    min-width: 100%;
-    min-height: 300px;
-    background-color: #282536;
-    padding: 10px;
+main, .aside {
+    box-shadow: -0.4vw -0.4vw 0 #282536;
 }
+
 
 
 .content-header, .content-footer {

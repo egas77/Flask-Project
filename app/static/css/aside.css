@@ -1,0 +1,21 @@
+aside {
+    min-height: 500px;
+    float: left;
+    width: 30%;
+    box-sizing: border-box;
+    padding-left: 20px;
+}
+
+.aside {
+    background-color: #FDF2FF;
+    margin-bottom: 20px;
+}
+
+.aside:last-of-type {
+    margin-bottom: 0;
+}
+
+.content-aside {
+    margin: 10px;
+}
+
