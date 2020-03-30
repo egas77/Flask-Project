@@ -18,18 +18,17 @@ a {
 
 body {
     margin: 0;
-    font-size: 30px;
     background-color: #B4B6CE;
 }
 
 
 .wrapper {
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
 
-main, .aside {
+main, .aside-item {
     box-shadow: -0.4vw -0.4vw 0 #282536;
 }
 

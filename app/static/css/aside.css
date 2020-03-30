@@ -1,17 +1,17 @@
 aside {
     min-height: 500px;
     float: left;
-    width: 30%;
+    width: 25%;
     box-sizing: border-box;
     padding-left: 20px;
 }
 
-.aside {
+.aside-item {
     background-color: #FDF2FF;
     margin-bottom: 20px;
 }
 
-.aside:last-of-type {
+.aside-item:last-of-type {
     margin-bottom: 0;
 }
 

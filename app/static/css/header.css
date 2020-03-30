@@ -1,10 +1,13 @@
 header {
     width: 100%;
-    height: 100px;
+    height: 70px;
     background-color: #282536;
     margin-bottom: 20px;
     padding: 10px;
+    font-size: 1em;
+    position: fixed;
 }
+
 
 .content-header {
     display: flex;
@@ -15,6 +18,10 @@ header {
 
 .nav-item {
     margin-right: 20px;
+}
+
+.nav-item:hover {
+    color: #CA6D75;
 }
 
 .nav-item:last-of-type {
