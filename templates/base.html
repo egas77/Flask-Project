@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header>
+    <div class="content-header">
+        <span>Header</span>
+    </div>
+</header>
+
+<div class="content">
+    <div class="wrapper clearfix">
+        <main>
+            <div class="content-main">
+                <span>Main</span>
+            </div>
+        </main>
+        <aside>
+            <div class="aside aside1">
+                <span>Sidebar1</span>
+                <div class="content-aside">
+                    <span>Content sidebar</span>
+                </div>
+            </div>
+            <div class=" aside aside2">
+                <span>Sidebar2</span>
+                <div class="content-aside">
+                    <span>Content sidebar</span>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<footer>
+    <div class="content-footer">
+        <span>Footer</span>
+    </div>
+</footer>
+
+</body>
+</html>
