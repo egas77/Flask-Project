@@ -16,6 +16,14 @@
             <a href="#" class="nav-item">Пункт 4</a>
             <a href="#" class="nav-item">Алаляй</a>
         </nav>
+        <div class="user-block">
+            {% if current_user.is_authenticated %}
+                <span class="user-name">{{ current_user.username }}</span>
+                <a class="button-link logout-button" href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+                <a class="button-link register-button" href="{{ url_for('register') }}">Регистрация</a>
+            {% endif %}
+        </div>
     </div>
 </header>
 

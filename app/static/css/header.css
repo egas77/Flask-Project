@@ -4,10 +4,22 @@ header {
     background-color: #282536;
     margin-bottom: 20px;
     padding: 10px;
-    font-size: 1em;
+    font-size: 1.25em;
     position: fixed;
 }
 
+
+nav {
+    margin-right: auto;
+}
+
+.register-button {
+    background-color: #CA6D75;
+}
+
+.register-button:hover {
+    background-color: #a93d46;
+}
 
 .content-header {
     display: flex;

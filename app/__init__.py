@@ -14,3 +14,7 @@ from app import models
 
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
+
+
+def get_session() -> db.Session:
+    return db.session

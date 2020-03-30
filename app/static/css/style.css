@@ -33,6 +33,10 @@ main, .aside-item {
 }
 
 
+.button-link {
+    padding: 10px;
+}
+
 
 .content-header, .content-footer {
     max-width: 1700px;
