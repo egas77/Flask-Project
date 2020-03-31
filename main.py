@@ -67,18 +67,18 @@ def confirm_email(token):
     try:
         email = confirm_token(token)
     except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+        flash('Ссылка для подтверждения недействительна или срок ее действия истек', 'danger')
     user = User.get_query().filter(User.email == email).first_or_404()
     if current_user.email != user.email:
         abort(404)
     if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
+        flash('Аккаунт уже подтвержден', 'success')
     else:
         user.confirmed = True
         user.confirmed_on = datetime.datetime.now()
         session = get_session()
         session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
+        flash('Учетная запись успешно потверждена', 'success')
     return redirect(url_for('index'))
 
 
