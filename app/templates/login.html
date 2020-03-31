@@ -18,28 +18,21 @@
                 &lArr; На главную</a>
             <h2 class="registration-title">{{ title }}</h2>
             <form method="post" class="registration-form">
-                {{ register_form.hidden_tag() }}
+                {{ authorization_form.hidden_tag() }}
                 <div class="form-group">
-                    {{ register_form.username(class='form-field string-field',
-                     placeholder=register_form.username.label.text) }}
+                    {{ authorization_form.email(class='form-field string-field',
+                     placeholder=authorization_form.email.label.text) }}
                 </div>
                 <div class="form-group">
-                    {{ register_form.email(class='form-field string-field',
-                     placeholder=register_form.email.label.text) }}
+                    {{ authorization_form.password(class='form-field string-field',
+                     placeholder=authorization_form.password.label.text) }}
                 </div>
                 <div class="form-group">
-                    {{ register_form.password(class='form-field string-field',
-                     placeholder=register_form.password.label.text) }}
+                    {{ authorization_form.remember(class='form-field boolean-field') }}
+                    {{ authorization_form.remember.label }}
                 </div>
                 <div class="form-group">
-                    {{ register_form.repeat_password(class='form-field string-field',
-                     placeholder=register_form.repeat_password.label.text) }}
-                </div>
-                <div class="form-group recaptcha">
-                    {{ register_form.recaptcha_field }}
-                </div>
-                <div class="form-group">
-                    {{ register_form.submit(class='form-field submit-field button-link register-button') }}
+                    {{ authorization_form.submit(class='form-field submit-field button-link authorization-button') }}
                 </div>
             </form>
         </div>

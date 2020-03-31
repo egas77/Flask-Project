@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 import datetime
 
 from app import app, login_manager, get_session
-from app.forms import RegisterForm
+from app.forms import RegisterForm, AuthorizationForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
 
@@ -25,24 +25,34 @@ def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
+        print('VAlidate')
         if register_form.password.data != register_form.repeat_password.data:
             flash('Пароли не совподают', 'danger')
-            return render_template('registration.html', register_form=register_form, title=title)
-        repeat_user = User.get_query().filter(User.email == register_form.email.data).first()
-        if repeat_user:
-            flash('Пользователь с такми email уже зарегистрирован', 'danger')
-            return render_template('registration.html', register_form=register_form, title=title)
-        user = User()
-        user.username = register_form.username.data
-        user.email = register_form.email.data
-        user.set_password(register_form.password.data)
-        user.confirmed = False
-        session = get_session()
-        session.add(user)
-        session.commit()
-        login_user(user)
-        send_confirm_message(user)
-        return redirect(url_for('index'))
+        else:
+            repeat_user = User.get_query().filter(User.email == register_form.email.data).first()
+            if repeat_user:
+                flash('Пользователь с такми email уже зарегистрирован', 'danger')
+            else:
+                user = User()
+                user.username = register_form.username.data
+                user.email = register_form.email.data
+                user.set_password(register_form.password.data)
+                user.confirmed = False
+                session = get_session()
+                session.add(user)
+                session.commit()
+                login_user(user)
+                # send_confirm_message(user)
+                return redirect(url_for('index'))
+    else:
+        for error in register_form.username.errors:
+            flash(error, 'danger')
+        for error in register_form.email.errors:
+            flash(error, 'danger')
+        for error in register_form.password.errors:
+            flash(error, 'danger')
+        for error in register_form.repeat_password.errors:
+            flash(error, 'danger')
     return render_template('registration.html', register_form=register_form, title=title)
 
 
@@ -66,9 +76,29 @@ def confirm_email(token):
     return redirect(url_for('index'))
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    authorization_form = AuthorizationForm()
+    title = 'Авторизация'
+    if authorization_form.validate_on_submit():
+        email = authorization_form.email.data
+        password = authorization_form.password.data
+        remember = authorization_form.remember.data
+        user = User.get_query().filter(User.email == email).first()
+        if user:
+            if user.check_password(password):
+                login_user(user, remember=remember)
+                return redirect(url_for('index'))
+            else:
+                flash('Неверный пароль', 'danger')
+        else:
+            flash('Пользователь не найден', 'danger')
+    else:
+        for error in authorization_form.email.errors:
+            flash(error, 'danger')
+        for error in authorization_form.password.errors:
+            flash(error, 'danger')
+    return render_template('login.html', authorization_form=authorization_form, title=title)
 
 
 @app.route('/logout')

@@ -3,7 +3,6 @@
 @import "main.css";
 @import "aside.css";
 @import "footer.css";
-@import "registration.css";
 
 
 html {
@@ -44,7 +43,7 @@ body {
 .button-link {
     padding: 10px;
     border: none;
-    font-size: 1.25em;
+    font-size: 1.1em;
     color: #FDF2FF;
 }
 
@@ -87,12 +86,12 @@ body {
 }
 
 .flashes .success {
-    background-color: #1BCA08;
+    background-color: #149306;
 }
 
 
 .flashes .warning {
-    background-color: #ffb21a;
+    background-color: #ffac41;
 }
 
 
@@ -100,6 +99,15 @@ body {
     background-color: rgba(0, 0, 0, 0);
     border: none;
     font-size: 1.25em;
+}
+
+
+.registration-form, .registration-title {
+    text-align: center;
+}
+
+.g-recaptcha div {
+    margin: 0 auto;
 }
 
 
