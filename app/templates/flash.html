@@ -3,8 +3,8 @@
         <ul class=flashes>
             {% for category, message in messages %}
                 <li class="{{ category }}">
-                    <button class="close-flash">X</button>
-                    {{ message }}
+                    <button class="close-flash">&#x2716;</button>
+                    <span>{{ message }}</span>
                 </li>
             {% endfor %}
         </ul>

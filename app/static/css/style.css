@@ -78,6 +78,8 @@ body {
     padding: 10px;
     margin-bottom: 10px;
     color: #FDF2FF;
+    display: flex;
+    align-items: center;
 }
 
 
