@@ -49,10 +49,9 @@ def registration():
 @app.route('/confirm/<token>')
 @login_required
 def confirm_email(token):
-    try:
-        email = confirm_token(token)
-    except:
-        flash('Ссылка для подтверждения недействительна или срок ее действия истек', 'danger')
+    email = confirm_token(token)
+    if not email:
+        return redirect(url_for('index'))
     user = User.get_query().filter(User.email == email).first_or_404()
     if current_user.email != user.email:
         abort(401)

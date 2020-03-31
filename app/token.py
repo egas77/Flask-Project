@@ -1,6 +1,6 @@
 from flask import url_for, render_template, flash
 from flask_mail import Message
-from itsdangerous import URLSafeTimedSerializer
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
 from app import app, mail
 
@@ -18,7 +18,14 @@ def confirm_token(token, expiration=3600):
             salt=app.config['SECURITY_PASSWORD_SALT'],
             max_age=expiration
         )
+    except SignatureExpired:
+        flash('Срок дейсвия токена истек', 'danger')
+        return False
+    except BadSignature:
+        flash('Ошибка проверки подписи', 'danger')
+        return False
     except:
+        flash('Непредвиденная ошибка проверки токена')
         return False
     return email
 
