@@ -12,7 +12,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, index=True, unique=True)
     password_hash = db.Column(db.String)
     importance = db.Column(db.Integer)
-    create_date = db.Column(db.Date, default=datetime.now())
+    create_date = db.Column(db.DateTime, default=datetime.now())
+    confirmed = db.Column(db.Boolean, default=False)
+    confirmed_date = db.Column(db.DateTime, default=datetime.now())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
