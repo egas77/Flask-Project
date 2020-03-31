@@ -43,6 +43,9 @@ body {
 
 .button-link {
     padding: 10px;
+    border: none;
+    font-size: 1.25em;
+    color: #FDF2FF;
 }
 
 
@@ -60,6 +63,7 @@ body {
 
 .h-wrapper {
     margin: 0 auto;
+    padding: 15px;
 }
 
 

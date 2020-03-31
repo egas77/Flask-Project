@@ -16,3 +16,16 @@ main {
     margin-bottom: 30px;
     padding: 100px 20px 0;
 }
+
+
+.string-field {
+    width: 100%;
+    line-height: 34px;
+    font-size: 15px;
+    padding: 0 5px;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}

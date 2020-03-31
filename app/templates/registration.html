@@ -9,35 +9,35 @@
 </head>
 <body>
 <div class="v-wrapper">
-    <div class="h-wrapper shadow" style="max-width: 400px; border: 2px solid #282536;">
+    <div class="h-wrapper shadow" style="max-width: 450px; border: 2px solid #282536;">
         <div class="registration-form-container">
             <h2 class="registration-title">{{ title }}</h2>
             <form method="post" class="registration-form">
                 {{ register_form.hidden_tag() }}
                 <div class="form-group">
-                    {{ register_form.username.label(class='form-label') }}
-                    {{ register_form.username(class='form-field string-field') }}
+                    {{ register_form.username(class='form-field string-field',
+                     placeholder=register_form.username.label.text) }}
                     {% for error in register_form.username.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    {{ register_form.email.label(class='form-label') }}
-                    {{ register_form.email(class='form-field string-field') }}
+                    {{ register_form.email(class='form-field string-field',
+                     placeholder=register_form.email.label.text) }}
                     {% for error in register_form.email.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    {{ register_form.password.label(class='form-label') }}
-                    {{ register_form.password(class='form-field string-field') }}
+                    {{ register_form.password(class='form-field string-field',
+                     placeholder=register_form.password.label.text) }}
                     {% for error in register_form.password.errors %}
                         {{ error }}
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    {{ register_form.repeat_password.label(class='form-label') }}
-                    {{ register_form.repeat_password(class='form-field string-field') }}
+                    {{ register_form.repeat_password(class='form-field string-field',
+                     placeholder=register_form.repeat_password.label.text) }}
                     {% for error in register_form.repeat_password.errors %}
                         {{ error }}
                     {% endfor %}
@@ -49,7 +49,7 @@
                     {% endfor %}
                 </div>
                 <div class="form-group">
-                    {{ register_form.submit(class='form-field submit-field') }}
+                    {{ register_form.submit(class='form-field submit-field button-link register-button') }}
                 </div>
             </form>
         </div>
