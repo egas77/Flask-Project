@@ -76,12 +76,18 @@ body {
 
 .flashes li {
     list-style: none;
-    background-color: #a93d46;
     padding: 10px;
     margin-bottom: 10px;
     color: #FDF2FF;
-    display: block;
-    width: auto;
+}
+
+
+.flashes .danger {
+    background-color: #a93d46;
+}
+
+.flashes .success {
+    background-color: #1BCA08;
 }
 
 

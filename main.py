@@ -13,9 +13,9 @@ from app.token import generate_confirmation_token, confirm_token
 @app.route('/')
 @app.route('/index')
 def index():
-    flash('Error')
-    flash('Error2')
-    flash('56635253536466645656')
+    flash('Error', 'danger')
+    flash('Error2', 'success')
+    flash('56635253536466645656', 'success')
     return render_template('index.html')
 
 
@@ -29,6 +29,13 @@ def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
+        if register_form.password != register_form.repeat_password:
+            flash('Пароли не совподают')
+            return redirect(url_for('registration'))
+        repeat_user = User.get_query().filter(User.email == register_form.email).first()
+        if repeat_user:
+            flash('Пользователь с такми email уже зарегистрирован')
+            return redirect(url_for('registration'))
         user = User()
         user.username = register_form.username.data
         user.email = register_form.email.data
@@ -40,7 +47,7 @@ def registration():
         token = generate_confirmation_token(user.email)
         confirm_url = url_for('confirm_email', token=token, _external=True)
         template = render_template('activate.html', confirm_url=confirm_url)
-        subject = "Please confirm your email"
+        subject = "Пожалуйста подтвердите вашу почту"
         with app.app_context():
             confirm_message = Message(
                 subject,
@@ -61,7 +68,7 @@ def confirm_email(token):
         email = confirm_token(token)
     except:
         flash('The confirmation link is invalid or has expired.', 'danger')
-    user = User.get_query().filter_by(email=email).first_or_404()
+    user = User.get_query().filter(User.email == email).first_or_404()
     if current_user.email != user.email:
         abort(404)
     if user.confirmed:
