@@ -2,8 +2,8 @@ from app import db
 
 from flask_sqlalchemy import BaseQuery
 from flask_login import UserMixin
-from datetime import datetime
 from werkzeug.security import check_password_hash, generate_password_hash
+import datetime
 
 
 class User(db.Model, UserMixin):
@@ -12,9 +12,9 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String, index=True, unique=True)
     password_hash = db.Column(db.String)
     importance = db.Column(db.Integer)
-    create_date = db.Column(db.DateTime, default=datetime.now())
+    create_date = db.Column(db.DateTime, default=datetime.datetime.now())
     confirmed = db.Column(db.Boolean, default=False)
-    confirmed_date = db.Column(db.DateTime, default=datetime.now())
+    confirmed_date = db.Column(db.DateTime, default=datetime.datetime.now())
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

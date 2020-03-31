@@ -1,5 +1,6 @@
 class Config(object):
     SECRET_KEY = 'LMTk06lLwpD4HlZl'
+    SECURITY_PASSWORD_SALT = 'iZRMbSOFBYu4xoOW'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///static\\db\\db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASK_APP = 'main.py'
@@ -9,6 +10,7 @@ class Config(object):
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
+    MAIL_USE_TLS = False
     MAIL_USERNAME = 'blogflask89@gmail.com'
     MAIL_DEFAULT_SENDER = 'blogflask89@gmail.com'
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
