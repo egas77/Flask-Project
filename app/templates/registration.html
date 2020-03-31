@@ -15,6 +15,8 @@
 <div class="v-wrapper">
     <div class="h-wrapper shadow" style="max-width: 450px; border: 2px solid #282536;">
         <div class="registration-form-container">
+            <a href="{{ url_for('index') }}" style="color: #282536; font-size: 1.15em;">
+                &lArr; На главную</a>
             <h2 class="registration-title">{{ title }}</h2>
             <form method="post" class="registration-form">
                 {{ register_form.hidden_tag() }}

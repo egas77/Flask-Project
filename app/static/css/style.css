@@ -91,6 +91,11 @@ body {
 }
 
 
+.flashes .warning {
+    background-color: #ffb21a;
+}
+
+
 .flashes .close-flash {
     background-color: rgba(0, 0, 0, 0);
     border: none;

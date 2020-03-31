@@ -1,13 +1,12 @@
-from flask import render_template, redirect, url_for, flash, abort
+from flask import render_template, redirect, url_for, flash, abort, request
 from flask_login import login_required, login_user, logout_user, current_user
-from flask_mail import Message
 
 import datetime
 
-from app import app, mail, login_manager, get_session
+from app import app, login_manager, get_session
 from app.forms import RegisterForm
 from app.models import User
-from app.token import generate_confirmation_token, confirm_token
+from app.token import send_confirm_message, confirm_token
 
 
 @app.route('/')
@@ -26,13 +25,13 @@ def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
-        if register_form.password != register_form.repeat_password:
-            flash('Пароли не совподают')
-            return redirect(url_for('registration'))
-        repeat_user = User.get_query().filter(User.email == register_form.email).first()
+        if register_form.password.data != register_form.repeat_password.data:
+            flash('Пароли не совподают', 'danger')
+            return render_template('registration.html', register_form=register_form, title=title)
+        repeat_user = User.get_query().filter(User.email == register_form.email.data).first()
         if repeat_user:
-            flash('Пользователь с такми email уже зарегистрирован')
-            return redirect(url_for('registration'))
+            flash('Пользователь с такми email уже зарегистрирован', 'danger')
+            return render_template('registration.html', register_form=register_form, title=title)
         user = User()
         user.username = register_form.username.data
         user.email = register_form.email.data
@@ -41,19 +40,8 @@ def registration():
         session = get_session()
         session.add(user)
         session.commit()
-        token = generate_confirmation_token(user.email)
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        template = render_template('activate.html', confirm_url=confirm_url)
-        subject = "Пожалуйста подтвердите вашу почту"
-        with app.app_context():
-            confirm_message = Message(
-                subject,
-                recipients=[user.email],
-                html=template,
-                sender=app.config['MAIL_DEFAULT_SENDER']
-            )
-            mail.send(confirm_message)
         login_user(user)
+        send_confirm_message(user)
         return redirect(url_for('index'))
     return render_template('registration.html', register_form=register_form, title=title)
 
@@ -67,7 +55,7 @@ def confirm_email(token):
         flash('Ссылка для подтверждения недействительна или срок ее действия истек', 'danger')
     user = User.get_query().filter(User.email == email).first_or_404()
     if current_user.email != user.email:
-        abort(404)
+        abort(401)
     if user.confirmed:
         flash('Аккаунт уже подтвержден', 'success')
     else:
@@ -98,7 +86,7 @@ def page_not_found(error):
 
 
 @app.errorhandler(401)
-def page_not_found(error):
+def login_error(error):
     flash(error, 'danger')
     return render_template('index.html'), 401
 
