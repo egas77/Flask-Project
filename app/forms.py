@@ -19,3 +19,12 @@ class RegisterForm(FlaskForm):
                                     validators=[DataRequired(message=required_message)])
     recaptcha_field = RecaptchaField()
     submit = SubmitField('Регистрация')
+
+
+class AuthorizationForm(FlaskForm):
+    email = EmailField('Электронная почта',
+                       validators=[DataRequired(message=required_message),
+                                   Email(message=email_message)])
+    password = PasswordField('Пароль',
+                             validators=[DataRequired(message=required_message)])
+    submit = SubmitField('Войти')
