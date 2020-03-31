@@ -25,7 +25,7 @@ def confirm_token(token, expiration=3600):
         flash('Ошибка проверки подписи', 'danger')
         return False
     except:
-        flash('Непредвиденная ошибка проверки токена')
+        flash('Непредвиденная ошибка проверки токена', 'danger')
         return False
     return email
 
@@ -33,7 +33,7 @@ def confirm_token(token, expiration=3600):
 def send_confirm_message(user):
     token = generate_confirmation_token(user.email)
     confirm_url = url_for('confirm_email', token=token, _external=True)
-    subject = "Пожалуйста подтвердите вашу почту"
+    subject = 'Пожалуйста подтвердите вашу почту'
     template = render_template('activate.html', confirm_url=confirm_url)
     with app.app_context():
         confirm_message = Message(

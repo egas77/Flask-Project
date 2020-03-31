@@ -25,9 +25,8 @@ def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
-        print('VAlidate')
         if register_form.password.data != register_form.repeat_password.data:
-            flash('Пароли не совподают', 'danger')
+            flash('Пароли не совпадают', 'danger')
         else:
             repeat_user = User.get_query().filter(User.email == register_form.email.data).first()
             if repeat_user:
@@ -72,7 +71,7 @@ def confirm_email(token):
         user.confirmed_on = datetime.datetime.now()
         session = get_session()
         session.commit()
-        flash('Учетная запись успешно потверждена', 'success')
+        flash('Учетная запись успешно подтверждена', 'success')
     return redirect(url_for('index'))
 
 
