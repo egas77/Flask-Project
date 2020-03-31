@@ -13,9 +13,6 @@ from app.token import generate_confirmation_token, confirm_token
 @app.route('/')
 @app.route('/index')
 def index():
-    flash('Error', 'danger')
-    flash('Error2', 'success')
-    flash('56635253536466645656', 'success')
     return render_template('index.html')
 
 
@@ -92,6 +89,18 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    flash(error, 'danger')
+    return render_template('index.html'), 404
+
+
+@app.errorhandler(401)
+def page_not_found(error):
+    flash(error, 'danger')
+    return render_template('index.html'), 401
 
 
 if __name__ == '__main__':
