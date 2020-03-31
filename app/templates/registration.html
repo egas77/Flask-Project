@@ -1,6 +1,61 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {{ title }}
+    </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="v-wrapper">
+    <div class="h-wrapper shadow" style="max-width: 400px; border: 2px solid #282536;">
+        <div class="registration-form-container">
+            <h2 class="registration-title">{{ title }}</h2>
+            <form method="post" class="registration-form">
+                {{ register_form.hidden_tag() }}
+                <div class="form-group">
+                    {{ register_form.username.label(class='form-label') }}
+                    {{ register_form.username(class='form-field string-field') }}
+                    {% for error in register_form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ register_form.email.label(class='form-label') }}
+                    {{ register_form.email(class='form-field string-field') }}
+                    {% for error in register_form.email.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ register_form.password.label(class='form-label') }}
+                    {{ register_form.password(class='form-field string-field') }}
+                    {% for error in register_form.password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ register_form.repeat_password.label(class='form-label') }}
+                    {{ register_form.repeat_password(class='form-field string-field') }}
+                    {% for error in register_form.repeat_password.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="form-group recaptcha">
+                    {{ register_form.recaptcha_field }}
+                    {% for error in register_form.recaptcha_field.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ register_form.submit(class='form-field submit-field') }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+</body>
+</html>
 
-{% block main %}
-
-{% endblock %}
