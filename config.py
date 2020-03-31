@@ -3,14 +3,14 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = 'sqlite:///static\\db\\db.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASK_APP = 'main.py'
-    RECAPTCHA_PUBLIC_KEY = '6LdyceUUAAAAAHNV2E4yIDNK3sS-vZe5KqJw4RIk'
-    RECAPTCHA_PRIVATE_KEY = '6LdyceUUAAAAAARkkR8_ZIFQPaLLiFc3y9CWYvZj'
+    RECAPTCHA_PUBLIC_KEY = '6LfcguUUAAAAAMWvFiu8rpazGR61ZxuIDbtkaG65'
+    RECAPTCHA_PRIVATE_KEY = '6LfcguUUAAAAAEWzpN78kxcUj31kU8FAuQn2UG8S'
 
-    MAIL_SERVER = 'smtp.yandex.ru'
+    MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
-    MAIL_USERNAME = 'flask-blog@yandex.ru'
-    MAIL_DEFAULT_SENDER = 'flask-blog@yandex.ru'
+    MAIL_USERNAME = 'blogflask89@gmail.com'
+    MAIL_DEFAULT_SENDER = 'blogflask89@gmail.com'
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
 
 
