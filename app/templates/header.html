@@ -7,7 +7,7 @@
     </nav>
     <div class="user-block">
         {% if current_user.is_authenticated %}
-            <span class="user-name">{{ current_user.username }}</span>
+            <span class="user-name">{{ current_user.login }}</span>
             <a class="button-link logout-button" href="{{ url_for('logout') }}">Выйти</a>
         {% else %}
             <a class="button-link register-button"

@@ -50,7 +50,7 @@ def registration():
                     # send_confirm_message(user)
                     return redirect(url_for('index'))
     else:
-        for error in register_form.username.errors:
+        for error in register_form.login.errors:
             flash(error, 'danger')
         for error in register_form.email.errors:
             flash(error, 'danger')
@@ -86,10 +86,10 @@ def login():
     authorization_form = AuthorizationForm()
     title = 'Авторизация'
     if authorization_form.validate_on_submit():
-        email = authorization_form.email.data
+        login_data = authorization_form.login.data
         password = authorization_form.password.data
         remember = authorization_form.remember.data
-        user = User.get_query().filter(User.email == email).first()
+        user = User.get_query().filter(User.login == login_data).first()
         if user:
             if user.check_password(password):
                 login_user(user, remember=remember)
@@ -97,9 +97,9 @@ def login():
             else:
                 flash('Неверный пароль', 'danger')
         else:
-            flash('Пользователь не найден', 'danger')
+            flash('Пользователь с таким логином не найден', 'danger')
     else:
-        for error in authorization_form.email.errors:
+        for error in authorization_form.login.errors:
             flash(error, 'danger')
         for error in authorization_form.password.errors:
             flash(error, 'danger')

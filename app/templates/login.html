@@ -3,8 +3,8 @@
     <form method="post" class="login-form">
         {{ authorization_form.hidden_tag() }}
         <div class="form-group">
-            {{ authorization_form.email(class='form-field string-field',
-                     placeholder=authorization_form.email.label.text) }}
+            {{ authorization_form.login(class='form-field string-field',
+                     placeholder=authorization_form.login.label.text) }}
         </div>
         <div class="form-group">
             {{ authorization_form.password(class='form-field string-field',
