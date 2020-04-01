@@ -8,8 +8,10 @@ email_message = 'Недействительный адрес электронн�
 
 
 class RegisterForm(FlaskForm):
-    username = StringField('Имя',
-                           validators=[DataRequired(message=required_message.format('именем'))])
+    # username = StringField('Имя',
+    #                        validators=[DataRequired(message=required_message.format('именем'))])
+    login = StringField('Логин',
+                        validators=[DataRequired(message=required_message.format('логином'))])
     email = EmailField('Электронная почта',
                        validators=[
                            DataRequired(message=required_message.format('электронной почтой')),

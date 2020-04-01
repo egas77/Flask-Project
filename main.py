@@ -28,21 +28,27 @@ def registration():
         if register_form.password.data != register_form.repeat_password.data:
             flash('Пароли не совпадают', 'danger')
         else:
-            repeat_user = User.get_query().filter(User.email == register_form.email.data).first()
-            if repeat_user:
-                flash('Пользователь с такми email уже зарегистрирован', 'danger')
+            repeat_user_login = User.get_query().filter(
+                User.login == register_form.login.data).first()
+            if repeat_user_login:
+                flash('Пользователь с таким логином уже зарегистрирован', 'danger')
             else:
-                user = User()
-                user.username = register_form.username.data
-                user.email = register_form.email.data
-                user.set_password(register_form.password.data)
-                user.confirmed = False
-                session = get_session()
-                session.add(user)
-                session.commit()
-                login_user(user)
-                # send_confirm_message(user)
-                return redirect(url_for('index'))
+                repeat_user_email = User.get_query().filter(
+                    User.email == register_form.email.data).first()
+                if repeat_user_email:
+                    flash('Пользователь с такми email уже зарегистрирован', 'danger')
+                else:
+                    user = User()
+                    user.login = register_form.login.data
+                    user.email = register_form.email.data
+                    user.set_password(register_form.password.data)
+                    user.confirmed = False
+                    session = get_session()
+                    session.add(user)
+                    session.commit()
+                    login_user(user)
+                    # send_confirm_message(user)
+                    return redirect(url_for('index'))
     else:
         for error in register_form.username.errors:
             flash(error, 'danger')

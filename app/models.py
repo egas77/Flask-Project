@@ -8,9 +8,10 @@ import datetime
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String, index=True, unique=True)
+    login = db.Column(db.String, index=True, unique=True)
     email = db.Column(db.String, index=True, unique=True)
     password_hash = db.Column(db.String)
+    username = db.Column(db.String)
     importance = db.Column(db.Integer)
     create_date = db.Column(db.DateTime, default=datetime.datetime.now())
     confirmed = db.Column(db.Boolean, default=False)
