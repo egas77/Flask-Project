@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {% block title %}{% endblock %}
+        {{ title }}
     </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
@@ -11,24 +11,19 @@
             crossorigin="anonymous"></script>
 </head>
 <body>
+<div class="v-wrapper">
+    <div class="h-wrapper shadow" style="max-width: 450px; border: 2px solid #282536;">
+        <div class="form-container">
+            <a href="{{ url_for('index') }}" class="main-link">
+                &lArr; На главную</a>
+            <h2 class="form-title">{{ title }}</h2>
+            {% block form %}
 
-<header>
-    {% include 'header.html' %}
-</header>
-
-
-<div class="main-block">
-    <div class="h-wrapper" style="max-width: 1500px">
-        {% block main %}
-            {% include 'main.html' %}
-        {% endblock %}
+            {% endblock %}
+        </div>
     </div>
 </div>
-
-<footer>
-    {% include 'footer.html' %}
-</footer>
-
 {% include 'flash.html' %}
 </body>
 </html>
+

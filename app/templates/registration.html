@@ -1,51 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>
-        {{ title }}
-    </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-</head>
-<body>
-<div class="v-wrapper">
-    <div class="h-wrapper shadow" style="max-width: 450px; border: 2px solid #282536;">
-        <div class="registration-form-container">
-            <a href="{{ url_for('index') }}" style="color: #282536; font-size: 1.15em;">
-                &lArr; На главную</a>
-            <h2 class="registration-title">{{ title }}</h2>
-            <form method="post" class="registration-form">
-                {{ register_form.hidden_tag() }}
-                <div class="form-group">
-                    {{ register_form.username(class='form-field string-field',
+{% extends 'base_form.html' %}
+{% block form %}
+    <form method="post" class="registration-form">
+        {{ register_form.hidden_tag() }}
+        <div class="form-group">
+            {{ register_form.username(class='form-field string-field',
                      placeholder=register_form.username.label.text) }}
-                </div>
-                <div class="form-group">
-                    {{ register_form.email(class='form-field string-field',
-                     placeholder=register_form.email.label.text) }}
-                </div>
-                <div class="form-group">
-                    {{ register_form.password(class='form-field string-field',
-                     placeholder=register_form.password.label.text) }}
-                </div>
-                <div class="form-group">
-                    {{ register_form.repeat_password(class='form-field string-field',
-                     placeholder=register_form.repeat_password.label.text) }}
-                </div>
-                <div class="form-group recaptcha">
-                    {{ register_form.recaptcha_field }}
-                </div>
-                <div class="form-group">
-                    {{ register_form.submit(class='form-field submit-field button-link register-button') }}
-                </div>
-            </form>
         </div>
-    </div>
-</div>
-{% include 'flash.html' %}
-</body>
-</html>
+        <div class="form-group">
+            {{ register_form.email(class='form-field string-field',
+                     placeholder=register_form.email.label.text) }}
+        </div>
+        <div class="form-group">
+            {{ register_form.password(class='form-field string-field',
+                     placeholder=register_form.password.label.text) }}
+        </div>
+        <div class="form-group">
+            {{ register_form.repeat_password(class='form-field string-field',
+                     placeholder=register_form.repeat_password.label.text) }}
+        </div>
+        <div class="form-group recaptcha">
+            {{ register_form.recaptcha_field }}
+        </div>
+        <div class="form-group">
+            {{ register_form.submit(class='form-field submit-field button-link register-button') }}
+        </div>
+    </form>
+{% endblock %}
+
 

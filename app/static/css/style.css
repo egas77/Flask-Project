@@ -62,7 +62,6 @@ body {
 
 .h-wrapper {
     margin: 0 auto;
-    padding: 15px;
 }
 
 
@@ -104,8 +103,19 @@ body {
 }
 
 
-.registration-form, .registration-title {
+.form-container {
+    margin: 15px;
+}
+
+
+.form-container form, .form-title {
     text-align: center;
+}
+
+
+.form-container .main-link {
+    color: #282536;
+    font-size: 1.15em;
 }
 
 .g-recaptcha div {
