@@ -2,12 +2,18 @@
     {% if messages %}
         <ul class=flashes>
             {% for category, message in messages %}
-                <li class="{{ category }}">
+                <li class="flash-item {{ category }}">
                     <button class="close-flash">&#x2716;</button>
-                    <span>{{ message }}</span>
+                    <span class="message-flash">{{ message }}</span>
                 </li>
             {% endfor %}
         </ul>
     {% endif %}
 {% endwith %}
-<script src="{{ url_for('static', filename='js/close_flash.js') }}"></script>
+<template id="flash-item">
+    <li class="flash-item {{ category }}">
+        <button class="close-flash">&#x2716;</button>
+        <span class="message-flash"></span>
+    </li>
+</template>
+<script src="{{ url_for('static', filename='js/flash.js') }}"></script>

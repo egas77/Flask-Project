@@ -12,6 +12,7 @@ from app.token import send_confirm_message, confirm_token
 @app.route('/')
 @app.route('/index')
 def index():
+    flash('123', 'error')
     return render_template('index.html')
 
 
@@ -26,17 +27,17 @@ def registration():
     title = 'Регистрация'
     if register_form.validate_on_submit():
         if register_form.password.data != register_form.repeat_password.data:
-            flash('Пароли не совпадают', 'danger')
+            flash('Пароли не совпадают', 'error')
         else:
             repeat_user_login = User.get_query().filter(
                 User.login == register_form.login.data).first()
             if repeat_user_login:
-                flash('Пользователь с таким логином уже зарегистрирован', 'danger')
+                flash('Пользователь с таким логином уже зарегистрирован', 'error')
             else:
                 repeat_user_email = User.get_query().filter(
                     User.email == register_form.email.data).first()
                 if repeat_user_email:
-                    flash('Пользователь с такми email уже зарегистрирован', 'danger')
+                    flash('Пользователь с такми email уже зарегистрирован', 'error')
                 else:
                     user = User()
                     user.login = register_form.login.data
@@ -51,13 +52,13 @@ def registration():
                     return redirect(url_for('index'))
     else:
         for error in register_form.login.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
         for error in register_form.email.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
         for error in register_form.password.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
         for error in register_form.repeat_password.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
     return render_template('registration.html', register_form=register_form, title=title)
 
 
@@ -95,14 +96,14 @@ def login():
                 login_user(user, remember=remember)
                 return redirect(url_for('index'))
             else:
-                flash('Неверный пароль', 'danger')
+                flash('Неверный пароль', 'error')
         else:
-            flash('Пользователь с таким логином не найден', 'danger')
+            flash('Пользователь с таким логином не найден', 'error')
     else:
         for error in authorization_form.login.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
         for error in authorization_form.password.errors:
-            flash(error, 'danger')
+            flash(error, 'error')
     return render_template('login.html', authorization_form=authorization_form, title=title)
 
 
