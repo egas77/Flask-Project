@@ -32,6 +32,10 @@ def registration():
                                  data=request.form.to_dict())
         if response:
             flash('Регистрация прошла успешно', 'success')
+            user = User.get_query().filter(User.login == register_form.login.data,
+                                           User.email == register_form.email.data).first()
+            login_user(user)
+            # send_confirm_message(user)
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')
@@ -86,17 +90,26 @@ def login():
         if user:
             if user.check_password(password):
                 login_user(user, remember=remember)
-                return redirect(url_for('index'))
-            else:
-                flash('Неверный пароль', 'error')
-        else:
-            flash('Пользователь с таким логином не найден', 'error')
-    else:
+                return make_response(jsonify({
+                    'redirect': True,
+                    'redirect_url': url_for('index')
+                }), 200)
+            return make_response(jsonify({
+                'message': {'Ошибка': 'Неверный пароль'}
+            }), 400)
+        return make_response(jsonify({
+            'message': {'Ошибка': 'Пользователь с таким логином не найден'}
+        }), 400)
+    elif request.method == 'POST' and not authorization_form.validate_on_submit():
+        errors = {}
         for error in authorization_form.login.errors:
-            flash(error, 'error')
+            errors['login'] = error
         for error in authorization_form.password.errors:
-            flash(error, 'error')
-    return render_template('login.html', authorization_form=authorization_form, title=title)
+            errors['password'] = error
+        if errors:
+            return make_response(jsonify({'message': errors}), 400)
+    elif request.method == 'GET':
+        return render_template('login.html', authorization_form=authorization_form, title=title)
 
 
 @app.route('/logout')
@@ -108,13 +121,13 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    flash(error, 'danger')
+    flash(error, 'error')
     return render_template('index.html'), 404
 
 
 @app.errorhandler(401)
 def login_error(error):
-    flash(error, 'danger')
+    flash(error, 'error')
     return render_template('index.html'), 401
 
 
