@@ -1,8 +1,4 @@
 console.log('Complete connect script registration');
-let socket = io();
-socket.on('registration_validate_error', function (message) {
-    createFlash('error', message);
-});
 $(document).ready(function () {
     let registrationForm = $('.registration-form');
     registrationForm.submit(function (event) {

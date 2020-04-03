@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_restful import Api
-from flask_socketio import SocketIO
 
 from config import Develop, Testing
 
@@ -26,4 +25,3 @@ api.add_resource(user_api.UserResource, '/user-api')
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 mail = Mail(app)
-socket = SocketIO(app)

@@ -5,7 +5,7 @@ from flask_restful import abort
 import datetime
 import requests
 
-from app import app, login_manager, get_session, api, socket
+from app import app, login_manager, get_session, api
 from app.forms import RegisterForm, AuthorizationForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
@@ -38,25 +38,20 @@ def registration():
             }), 200)
         else:
             return make_response(jsonify(response.json()), response.status_code)
-    elif request.method == 'POST':
-        error = False
+    elif request.method == 'POST' and not register_form.validate_on_submit():
+        errors = {}
         for error in register_form.login.errors:
-            socket.emit('registration_validate_error', error)
-            error = True
+            errors['login'] = error
         for error in register_form.email.errors:
-            socket.emit('registration_validate_error', error)
-            error = True
+            errors['email'] = error
         for error in register_form.password.errors:
-            socket.emit('registration_validate_error', error)
-            error = True
+            errors['password'] = error
         for error in register_form.repeat_password.errors:
-            socket.emit('registration_validate_error', error)
-            error = True
-        if error:
-            return make_response(jsonify({
-                'redirect': False
-            }), 400)
-    return render_template('registration.html', register_form=register_form, title=title)
+            errors['repeat_password'] = error
+        if errors:
+            return make_response(jsonify({'message': errors}), 400)
+    elif request.method == 'GET':
+        return render_template('registration.html', register_form=register_form, title=title)
 
 
 @app.route('/confirm/<token>')
