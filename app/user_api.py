@@ -14,7 +14,7 @@ class UserResource(Resource):
     def get(self, user_id):
         user = User.get_query().get(user_id)
         if not user:
-            abort(400, message='User not found')
+            abort(400, message={'Error': 'User not found'})
         return jsonify(
             user.to_dict()
         )
@@ -46,6 +46,15 @@ class UserResource(Resource):
                 }
             ), 200
         )
+
+    def delete(self, user_id):
+        user = User.get_query().get(user_id)
+        if not user:
+            abort(400, message={'Error': 'User not found'})
+        else:
+            session = get_session()
+            session.delete(user)
+            session.commit()
 
 
 class Users(Resource):

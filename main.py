@@ -34,7 +34,7 @@ def registration():
             flash('Регистрация прошла успешно', 'success')
             user = User.get_query().get(response.json()['user_id'])
             login_user(user)
-            # send_confirm_message(user)
+            send_confirm_message(user)
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')
@@ -70,7 +70,7 @@ def confirm_email(token):
         flash('Аккаунт уже подтвержден', 'success')
     else:
         user.confirmed = True
-        user.confirmed_on = datetime.datetime.now()
+        user.confirmed_date = datetime.datetime.now()
         session = get_session()
         session.commit()
         flash('Учетная запись успешно подтверждена', 'success')

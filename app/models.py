@@ -16,7 +16,7 @@ class User(db.Model, UserMixin, SerializerMixin):
     importance = db.Column(db.Integer)
     create_date = db.Column(db.DateTime, default=datetime.datetime.now())
     confirmed = db.Column(db.Boolean, default=False)
-    confirmed_date = db.Column(db.DateTime, default=datetime.datetime.now())
+    confirmed_date = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<User {}>'.format(self.login)
