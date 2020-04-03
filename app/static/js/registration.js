@@ -1,4 +1,8 @@
 console.log('Complete connect script registration');
+let socket = io();
+socket.on('registration_validate_error', function (message) {
+    createFlash('error', message);
+});
 $(document).ready(function () {
     let registrationForm = $('.registration-form');
     registrationForm.submit(function (event) {
@@ -13,6 +17,7 @@ $(document).ready(function () {
                 createFlash('error', message);
             }
         }).done(function (data) {
+            console.log(data);
             if (data.redirect) {
                 window.location.href = data.redirect_url;
             }

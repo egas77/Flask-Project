@@ -102,6 +102,10 @@ body {
     font-size: 1.25em;
 }
 
+.flashes .close-flash:focus, .flashes .close-flash:active {
+    outline: none;
+}
+
 
 .form-container {
     margin: 15px;

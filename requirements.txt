@@ -9,6 +9,7 @@ Flask-Login==0.5.0
 Flask-Mail==0.9.1
 Flask-Migrate==2.5.3
 Flask-RESTful==0.3.8
+Flask-SocketIO==4.2.1
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.3
 get==2019.4.13
@@ -21,6 +22,8 @@ post==2019.4.13
 public==2019.4.13
 python-dateutil==2.8.1
 python-editor==1.0.4
+python-engineio==3.12.1
+python-socketio==4.5.1
 pytz==2019.3
 query-string==2019.4.13
 requests==2.23.0

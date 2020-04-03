@@ -5,7 +5,7 @@ from flask_restful import abort
 import datetime
 import requests
 
-from app import app, login_manager, get_session, api
+from app import app, login_manager, get_session, api, socket
 from app.forms import RegisterForm, AuthorizationForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
@@ -38,15 +38,24 @@ def registration():
             }), 200)
         else:
             return make_response(jsonify(response.json()), response.status_code)
-    else:
+    elif request.method == 'POST':
+        error = False
         for error in register_form.login.errors:
-            flash(error, 'error')
+            socket.emit('registration_validate_error', error)
+            error = True
         for error in register_form.email.errors:
-            flash(error, 'error')
+            socket.emit('registration_validate_error', error)
+            error = True
         for error in register_form.password.errors:
-            flash(error, 'error')
+            socket.emit('registration_validate_error', error)
+            error = True
         for error in register_form.repeat_password.errors:
-            flash(error, 'error')
+            socket.emit('registration_validate_error', error)
+            error = True
+        if error:
+            return make_response(jsonify({
+                'redirect': False
+            }), 400)
     return render_template('registration.html', register_form=register_form, title=title)
 
 

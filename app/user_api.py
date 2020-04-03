@@ -37,7 +37,7 @@ class UserResource(Resource):
         user.confirmed = False
         session = get_session()
         session.add(user)
-        # session.commit()
+        session.commit()
         return make_response(
             jsonify({'redirect': False}), 200
         )

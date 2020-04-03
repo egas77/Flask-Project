@@ -10,7 +10,6 @@ let createFlash = function (type, message) {
 
 let bindCloseButton = function (flashItem) {
     let closeButton = flashItem.children('button.close-flash');
-    console.log(flashItem);
     closeButton.bind('click', function () {
         $(this).parent().remove();
     });
