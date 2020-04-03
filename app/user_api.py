@@ -39,7 +39,12 @@ class UserResource(Resource):
         session.add(user)
         session.commit()
         return make_response(
-            jsonify({'redirect': False}), 200
+            jsonify(
+                {
+                    'redirect': False,
+                    'user_id': user.id
+                }
+            ), 200
         )
 
 

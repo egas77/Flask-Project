@@ -32,8 +32,7 @@ def registration():
                                  data=request.form.to_dict())
         if response:
             flash('Регистрация прошла успешно', 'success')
-            user = User.get_query().filter(User.login == register_form.login.data,
-                                           User.email == register_form.email.data).first()
+            user = User.get_query().get(response.json()['user_id'])
             login_user(user)
             # send_confirm_message(user)
             return make_response(jsonify({

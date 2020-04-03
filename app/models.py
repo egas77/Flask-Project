@@ -19,7 +19,7 @@ class User(db.Model, UserMixin, SerializerMixin):
     confirmed_date = db.Column(db.DateTime, default=datetime.datetime.now())
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<User {}>'.format(self.login)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
