@@ -1,5 +1,6 @@
 let createFlash = function (type, message) {
-    let flashItem = $(document.querySelector('template#flash-item').content).children('li').clone();
+    let flashItem = $(
+        document.querySelector('template#flash-item').content).children('li').clone();
     flashItem.addClass(type);
     flashItem.children('.message-flash').text(message);
     $('ul.flashes').append(flashItem);
@@ -12,7 +13,7 @@ let bindCloseButton = function (flashItem) {
     console.log(flashItem);
     closeButton.bind('click', function () {
         $(this).parent().remove();
-    })
+    });
 };
 
 

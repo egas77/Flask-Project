@@ -19,7 +19,7 @@ class RegisterForm(FlaskForm):
     repeat_password = PasswordField('Повторите пароль',
                                     validators=[DataRequired(
                                         message=required_message.format('повтором пароля'))])
-    recaptcha_field = RecaptchaField()
+    # recaptcha_field = RecaptchaField()
     submit = SubmitField('Регистрация')
 
 

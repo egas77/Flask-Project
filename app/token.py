@@ -19,13 +19,13 @@ def confirm_token(token, expiration=3600):
             max_age=expiration
         )
     except SignatureExpired:
-        flash('Срок дейсвия токена истек', 'danger')
+        flash('Срок дейсвия токена истек', 'error')
         return False
     except BadSignature:
-        flash('Ошибка проверки подписи', 'danger')
+        flash('Ошибка проверки подписи', 'error')
         return False
     except:
-        flash('Непредвиденная ошибка проверки токена', 'danger')
+        flash('Непредвиденная ошибка проверки токена', 'error')
         return False
     return email
 

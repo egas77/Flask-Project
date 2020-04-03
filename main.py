@@ -1,18 +1,20 @@
-from flask import render_template, redirect, url_for, flash, abort, request
+from flask import render_template, redirect, url_for, flash, abort, request, make_response, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
+from flask_restful import abort
 
 import datetime
+import requests
 
-from app import app, login_manager, get_session
+from app import app, login_manager, get_session, api
 from app.forms import RegisterForm, AuthorizationForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
+from app.user_api import UserResource
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    flash('123', 'error')
     return render_template('index.html')
 
 
@@ -26,30 +28,16 @@ def registration():
     register_form = RegisterForm()
     title = 'Регистрация'
     if register_form.validate_on_submit():
-        if register_form.password.data != register_form.repeat_password.data:
-            flash('Пароли не совпадают', 'error')
+        response = requests.post(api.url_for(UserResource, _external=True),
+                                 data=request.form.to_dict())
+        if response:
+            flash('Регистрация прошла успешно', 'success')
+            return make_response(jsonify({
+                'redirect': True,
+                'redirect_url': url_for('index')
+            }), 200)
         else:
-            repeat_user_login = User.get_query().filter(
-                User.login == register_form.login.data).first()
-            if repeat_user_login:
-                flash('Пользователь с таким логином уже зарегистрирован', 'error')
-            else:
-                repeat_user_email = User.get_query().filter(
-                    User.email == register_form.email.data).first()
-                if repeat_user_email:
-                    flash('Пользователь с такми email уже зарегистрирован', 'error')
-                else:
-                    user = User()
-                    user.login = register_form.login.data
-                    user.email = register_form.email.data
-                    user.set_password(register_form.password.data)
-                    user.confirmed = False
-                    session = get_session()
-                    session.add(user)
-                    session.commit()
-                    login_user(user)
-                    # send_confirm_message(user)
-                    return redirect(url_for('index'))
+            return make_response(jsonify(response.json()), response.status_code)
     else:
         for error in register_form.login.errors:
             flash(error, 'error')
