@@ -14,23 +14,7 @@ nav {
     margin-right: auto;
 }
 
-.register-button {
-    background-color: #CA6D75;
-}
 
-.register-button:hover {
-    background-color: #a93d46;
-}
-
-
-.authorization-button {
-    background-color: #1BCA08;
-}
-
-
-.authorization-button:hover {
-    background-color: #149306;
-}
 
 .content-header {
     display: flex;

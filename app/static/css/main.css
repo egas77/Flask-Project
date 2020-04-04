@@ -1,20 +1,29 @@
 main {
-    min-height: 2000px;
+    min-height: 100%;
     float: left;
-    background-color: #FDF2FF;
     width: 75%;
     box-sizing: border-box;
 
 }
 
-.content-main {
-    margin: 10px;
+.main-item {
+    background-color: #FDF2FF;
+    margin-bottom: 20px;
+}
+
+.main-item:last-of-type {
+    margin-bottom: 0;
+}
+
+.content-main-item {
+    padding: 20px;
 }
 
 
 .main-block {
     margin-bottom: 30px;
     padding: 100px 20px 0;
+    min-height: 100%;
 }
 
 
@@ -34,4 +43,23 @@ main {
 
 .form-group {
     margin-bottom: 20px;
+}
+
+
+.red-button {
+    background-color: #CA6D75;
+}
+
+.red-button:hover {
+    background-color: #a93d46;
+}
+
+
+.green-button {
+    background-color: #1BCA08;
+}
+
+
+.green-button:hover {
+    background-color: #149306;
 }

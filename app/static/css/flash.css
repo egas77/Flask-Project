@@ -1,0 +1,40 @@
+.flashes {
+    position: fixed;
+    z-index: 2;
+    bottom: -10px;
+    right: 10px;
+}
+
+.flashes li {
+    list-style: none;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: #FDF2FF;
+    display: flex;
+    align-items: center;
+}
+
+
+.flashes .error {
+    background-color: #a93d46;
+}
+
+.flashes .success {
+    background-color: #149306;
+}
+
+
+.flashes .warning {
+    background-color: #ffac41;
+}
+
+
+.flashes .close-flash {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    font-size: 1.25em;
+}
+
+.flashes .close-flash:focus, .flashes .close-flash:active {
+    outline: none;
+}

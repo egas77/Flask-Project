@@ -6,7 +6,7 @@ import datetime
 import requests
 
 from app import app, login_manager, get_session, api
-from app.forms import RegisterForm, AuthorizationForm
+from app.forms import RegisterForm, AuthorizationForm, UserForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
 from app.user_api import UserResource
@@ -109,6 +109,13 @@ def login():
             return make_response(jsonify({'message': errors}), 400)
     elif request.method == 'GET':
         return render_template('login.html', authorization_form=authorization_form, title=title)
+
+
+@app.route('/user/<int:user_id>')
+@login_required
+def user_page(user_id):
+    user_form = UserForm()
+    return render_template('user.html', user_form=user_form)
 
 
 @app.route('/logout')

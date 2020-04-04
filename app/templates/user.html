@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Блог новостей
+{% endblock %}
+
+
+{% block main %}
+    <div class="main-item shadow">
+        <div class="content-main-item">
+            <h1>Пользователь: {{ current_user.login }}</h1>
+            <div class="avatar-block">
+                <img class="user-avatar shadow"
+                     src="{{ url_for('static', filename='img/users_avatar/default-user-avatar.png') }}"
+                     alt="default-user-avatar.jpg">
+                <div class="hover-avatar">
+                    <span style="color: #FDF2FF">Выбрать изображение</span>
+                </div>
+                {{ user_form.image(class="input-image", accept="image/*", id="input-image", title="", form="user-form") }}
+            </div>
+            <form class="user-form" id="user-form" enctype="multipart/form-data">
+                {{ user_form.hidden_tag() }}
+                <div class="form-group" style="text-align: right">
+                    {{ user_form.submit(class="button-link red-button") }}
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/user.js') }}"></script>
+{% endblock %}

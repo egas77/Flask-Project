@@ -13,20 +13,61 @@
 <body>
 
 <header>
-    {% include 'header.html' %}
+    <div class="content-header">
+        <nav>
+            <a href="{{ url_for('index') }}" class="nav-item">Главная</a>
+            <a href="#" class="nav-item">Последние новости</a>
+            <a href="#" class="nav-item">Пункт 4</a>
+            <a href="#" class="nav-item">Алаляй</a>
+        </nav>
+        <div class="user-block">
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('user_page', user_id=current_user.get_id()) }}" class="user-name">{{ current_user.login }}</a>
+                <a class="button-link logout-button" href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+                <a class="button-link red-button"
+                   href="{{ url_for('registration') }}">Регистрация</a>
+                <a class="button-link green-button"
+                   href="{{ url_for('login') }}">Войти</a>
+            {% endif %}
+        </div>
+    </div>
 </header>
-
 
 <div class="main-block">
     <div class="h-wrapper" style="max-width: 1500px">
-        {% block main %}
-            {% include 'main.html' %}
-        {% endblock %}
+        <div class="clearfix">
+            <main>
+                {% block main %}
+
+                {% endblock %}
+            </main>
+            <aside>
+                <div class="aside-item aside1 shadow">
+                    <div class="title-aside">
+                        <span>Sidebar 1</span>
+                    </div>
+                    <div class="content-aside">
+                        <span>Content sidebar1</span>
+                    </div>
+                </div>
+                <div class=" aside-item aside2 shadow">
+                    <div class="title-aside">
+                        <span>Sidebar 2</span>
+                    </div>
+                    <div class="content-aside">
+                        <span>Content sidebar2</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
     </div>
 </div>
 
 <footer>
-    {% include 'footer.html' %}
+    <div class="content-footer">
+        <span>Footer</span>
+    </div>
 </footer>
 
 {% include 'flash.html' %}
