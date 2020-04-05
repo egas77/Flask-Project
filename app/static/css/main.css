@@ -63,3 +63,8 @@ main {
 .green-button:hover {
     background-color: #149306;
 }
+
+
+.disable-button, .disable-button:hover {
+    background-color: #434343;
+}

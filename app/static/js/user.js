@@ -16,6 +16,8 @@ $(document).ready(function () {
 
     let activateButton = $('#activate-button');
     activateButton.bind('click', function () {
+        activateButton.addClass('disable-button');
+        activateButton.attr('disabled', true);
         $.ajax({
             'type': 'GET',
             'url': '/activate-email'
@@ -25,6 +27,9 @@ $(document).ready(function () {
         }).fail(function (data) {
             let message = data.message;
             createFlash('error', message);
+        }).always(function () {
+            activateButton.removeClass('disable-button');
+            activateButton.attr('disabled', false);
         });
-    })
+    });
 });

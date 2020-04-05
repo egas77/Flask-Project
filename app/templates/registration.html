@@ -29,6 +29,9 @@
             {{ register_form.submit(class='form-field submit-field button-link red-button') }}
         </div>
     </form>
+{% endblock %}
+
+{% block script %}
     <script src="{{ url_for('static', filename='js/registration.js') }}"></script>
 {% endblock %}
 

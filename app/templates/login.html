@@ -18,7 +18,13 @@
             {{ authorization_form.submit(class='form-field submit-field button-link green-button') }}
         </div>
     </form>
+{% endblock %}
+
+
+{% block script %}
     <script src="{{ url_for('static', filename='js/authorization.js') }}"></script>
 {% endblock %}
+
+
 
 
