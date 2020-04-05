@@ -34,8 +34,11 @@ def registration():
             flash('Регистрация прошла успешно', 'success')
             user = User.get_query().get(response.json()['user_id'])
             login_user(user)
-            send_confirm_message(user)
-            flash('На вашу почту отправлена инструкция для подтверждения регистрации', 'warning')
+            result = send_confirm_message(user)
+            if result['status']:
+                flash(result['message'], 'warning')
+            else:
+                flash(result['message'], 'success')
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')
@@ -129,11 +132,12 @@ def user_page(user_id):
 @app.route('/activate-email')
 @login_required
 def activate_email():
-    if not current_user.confirmed:
-        send_confirm_message(current_user)
+    result = send_confirm_message(current_user)
+    if result['status']:
         return make_response(jsonify(
-            {'message': 'На вашу почту отправлена инструкция для подтверждения регистрации'}), 200)
+            {'message': result['message']}), 200)
     else:
+        flash(result['message'], 'success')
         return redirect(url_for('index'))
 
 

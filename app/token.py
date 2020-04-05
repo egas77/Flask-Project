@@ -31,15 +31,25 @@ def confirm_token(token, expiration=3600):
 
 
 def send_confirm_message(user):
-    token = generate_confirmation_token(user.email)
-    confirm_url = url_for('confirm_email', token=token, _external=True)
-    subject = 'Пожалуйста подтвердите вашу почту'
-    template = render_template('activate.html', confirm_url=confirm_url)
-    with app.app_context():
-        confirm_message = Message(
-            subject,
-            recipients=[user.email],
-            html=template,
-            sender=app.config['MAIL_DEFAULT_SENDER']
-        )
-        mail.send(confirm_message)
+    if not user.confirmed:
+        token = generate_confirmation_token(user.email)
+        confirm_url = url_for('confirm_email', token=token, _external=True)
+        subject = 'Пожалуйста подтвердите вашу почту'
+        template = render_template('activate.html', confirm_url=confirm_url)
+        with app.app_context():
+            confirm_message = Message(
+                subject,
+                recipients=[user.email],
+                html=template,
+                sender=app.config['MAIL_DEFAULT_SENDER']
+            )
+            mail.send(confirm_message)
+        return {
+            'status': True,
+            'message': 'На вашу почту отправлена инструкция для подтверждения регистрации'
+        }
+    else:
+        return {
+            'status': False,
+            'message': 'Аккаунт уже подтвержден'
+        }
