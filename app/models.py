@@ -12,11 +12,13 @@ class User(db.Model, UserMixin, SerializerMixin):
     login = db.Column(db.String, index=True, unique=True)
     email = db.Column(db.String, index=True, unique=True)
     password_hash = db.Column(db.String)
-    username = db.Column(db.String)
+    nickname = db.Column(db.String)
     importance = db.Column(db.Integer, default=0)
     create_date = db.Column(db.DateTime, default=datetime.datetime.now())
     confirmed = db.Column(db.Boolean, default=False)
     confirmed_date = db.Column(db.DateTime)
+    registration_date = db.Column(db.Date, default=datetime.date.today())
+    subscription = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<User {} {}>'.format(self.login, self.id)

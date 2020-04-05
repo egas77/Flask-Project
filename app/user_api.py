@@ -6,6 +6,7 @@ from app.models import User
 
 class UserResource(Resource):
     parser = reqparse.RequestParser()
+    parser.add_argument('nickname', required=True)
     parser.add_argument('login', required=True)
     parser.add_argument('email', required=True)
     parser.add_argument('password', required=True)
@@ -31,6 +32,7 @@ class UserResource(Resource):
         if repeat_user_email:
             abort(400, message={'Ошибка': 'Пользователь с такми email уже зарегистрирован'})
         user = User()
+        user.nickname = args['nickname']
         user.login = args['login']
         user.email = args['email']
         user.set_password(args['password'])
@@ -46,6 +48,9 @@ class UserResource(Resource):
                 }
             ), 200
         )
+
+    def put(self):
+        pass
 
     def delete(self, user_id):
         user = User.get_query().get(user_id)

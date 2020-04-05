@@ -10,6 +10,8 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def create_admin():
     """Command for create admin"""
+    print('Введите никнейм:')
+    nickname = input()
     print('Введите логин:')
     login = input()
     print('Введите адрес электронной почты:')
@@ -20,15 +22,17 @@ def create_admin():
     repeat_password = input()
     response = requests.post('http://127.0.0.1:5000/user-api',
                              data={
+                                 'nickname': nickname,
                                  'login': login,
                                  'email': email,
                                  'password': password,
-                                 'repeat_password': repeat_password
+                                 'repeat_password': repeat_password,
                              })
     if response:
         user_id = response.json()['user_id']
         user = User.get_query().get(user_id)
         user.importance = 2
+        get_session().commit()
         print('Create admin success')
         print(f'Id for {user}: {user_id}')
         print('Потвердите ваш аккаунт в личном кабинете')

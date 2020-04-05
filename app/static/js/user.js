@@ -6,11 +6,25 @@ $(document).ready(function () {
     imageInput.change(function (event) {
         let file = event.target.files[0];
         reader.readAsDataURL(file);
-        reader.onload = function() {
+        reader.onload = function () {
             image.attr('src', reader.result);
         };
-        reader.onerror = function() {
+        reader.onerror = function () {
             console.log(reader.error);
         };
+    });
+
+    let activateButton = $('#activate-button');
+    activateButton.bind('click', function () {
+        $.ajax({
+            'type': 'GET',
+            'url': '/activate-email'
+        }).done(function (data) {
+            let message = data.message;
+            createFlash('warning', message);
+        }).fail(function (data) {
+            let message = data.message;
+            createFlash('error', message);
+        });
     })
 });

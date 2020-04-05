@@ -23,7 +23,12 @@ from app import models, user_api
 api = Api(app)
 api.add_resource(user_api.UserResource, '/user-api', '/user-api/<int:user_id>')
 
-migrate = Migrate(app, db)
+migrate = Migrate()
+with app.app_context():
+    if db.engine.url.drivername == 'sqlite':
+        migrate.init_app(app, db, render_as_batch=True)
+    else:
+        migrate.init_app(app, db)
 login_manager = LoginManager(app)
 mail = Mail(app)
 manager = Manager(app)

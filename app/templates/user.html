@@ -8,23 +8,63 @@
 {% block main %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h1>Пользователь: {{ current_user.login }}</h1>
-            <div class="avatar-block">
-                <img class="user-avatar shadow"
-                     src="{{ url_for('static', filename='img/users_avatar/default-user-avatar.png') }}"
-                     alt="default-user-avatar.jpg">
-                <div class="hover-avatar">
-                    <span style="color: #FDF2FF">Выбрать изображение</span>
+            <h1>Пользователь: {{ user.login }}</h1>
+            <div class="user-settings">
+                <div class="avatar-block">
+                    <img class="user-avatar shadow"
+                         src="{{ url_for('static', filename='img/users_avatar/default-user-avatar.png') }}"
+                         alt="default-user-avatar.jpg">
+                    {% if current_user.get_id() == user.get_id() %}
+                        <div class="hover-avatar">
+                            <span style="color: #FDF2FF">Выбрать изображение</span>
+                        </div>
+                        <input accept="image/*" class="input-image" id="input-image"
+                               name="image" title="" type="file">
+                    {% endif %}
                 </div>
-                {{ user_form.image(class="input-image", accept="image/*", id="input-image", title="", form="user-form") }}
+                <div class="info-block">
+                    <div class="info-elem">
+                        {% if user.confirmed %}
+                            <span class="active-span">Аккаунт подтвержден</span>
+                        {% else %}
+                            <span class="user-span-button not-active-span">Аккаунт не подтвержден</span>
+                            {% if current_user.get_id() == user.get_id() %}
+                                <br>
+                                <button class="button-link green-button" id="activate-button">
+                                    Подтвердить аккаунт
+                                </button>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="info-elem">
+                        <span>Никнейм: {{ user.nickname }}</span>
+                    </div>
+                    <div class="info-elem">
+                        <span>Почта: {{ user.email }}</span>
+                    </div>
+                    <div class="info-elem sub-block">
+                        {% if user.subscription %}
+                            <div class="sub-active">
+                                <span class="user-span-button active-span">Подписка подключена</span>
+                                <br>
+                                <button class="button-link red-button">Отключить подписку</button>
+                            </div>
+                        {% else %}
+                            <div class="sub-not-active">
+                                <span class="user-span-button not-active-span">Подписка не подключена</span>
+                                {% if current_user.get_id() == user.get_id() %}
+                                    <br>
+                                    <button class="button-link green-button">Подключить подписку
+                                    </button>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="info-elem">
+                        <span>Дата регистрации: {{ user.registration_date }}</span>
+                    </div>
+                </div>
             </div>
-            <form class="user-form" id="user-form" enctype="multipart/form-data">
-                {{ user_form.hidden_tag() }}
-                <div class="form-group" style="text-align: right">
-                    {{ user_form.submit(class="button-link red-button") }}
-                </div>
-
-            </form>
         </div>
     </div>
     <script src="{{ url_for('static', filename='js/user.js') }}"></script>

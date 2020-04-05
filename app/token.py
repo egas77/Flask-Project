@@ -43,4 +43,3 @@ def send_confirm_message(user):
             sender=app.config['MAIL_DEFAULT_SENDER']
         )
         mail.send(confirm_message)
-    flash('На вашу почту отправлена инструкция для подтверждения регистрации', 'warning')

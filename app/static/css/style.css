@@ -15,6 +15,11 @@ html {
 }
 
 
+button, button:active, button:focus {
+    border: none;
+}
+
+
 * {
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;

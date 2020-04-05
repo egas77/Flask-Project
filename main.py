@@ -35,6 +35,7 @@ def registration():
             user = User.get_query().get(response.json()['user_id'])
             login_user(user)
             send_confirm_message(user)
+            flash('На вашу почту отправлена инструкция для подтверждения регистрации', 'warning')
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')
@@ -111,14 +112,29 @@ def login():
         return render_template('login.html', authorization_form=authorization_form, title=title)
 
 
-@app.route('/user/<int:user_id>')
+@app.route('/user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def user_page(user_id):
-    if user_id != current_user.get_id() and current_user.importance != 0:
+    if user_id != int(current_user.get_id()) and current_user.importance != 2:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
     user_form = UserForm()
-    return render_template('user.html', user_form=user_form)
+    user = User.get_query().get(user_id)
+    if user:
+        if request.method == 'GET':
+            return render_template('user.html', user_form=user_form, user=user)
+    abort(401)
+
+
+@app.route('/activate-email')
+@login_required
+def activate_email():
+    if not current_user.confirmed:
+        send_confirm_message(current_user)
+        return make_response(jsonify(
+            {'message': 'На вашу почту отправлена инструкция для подтверждения регистрации'}), 200)
+    else:
+        return redirect(url_for('index'))
 
 
 @app.route('/logout')
