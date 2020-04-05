@@ -13,13 +13,13 @@ class User(db.Model, UserMixin, SerializerMixin):
     email = db.Column(db.String, index=True, unique=True)
     password_hash = db.Column(db.String)
     username = db.Column(db.String)
-    importance = db.Column(db.Integer)
+    importance = db.Column(db.Integer, default=0)
     create_date = db.Column(db.DateTime, default=datetime.datetime.now())
     confirmed = db.Column(db.Boolean, default=False)
     confirmed_date = db.Column(db.DateTime)
 
     def __repr__(self):
-        return '<User {}>'.format(self.login)
+        return '<User {} {}>'.format(self.login, self.id)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

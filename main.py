@@ -114,6 +114,9 @@ def login():
 @app.route('/user/<int:user_id>')
 @login_required
 def user_page(user_id):
+    if user_id != current_user.get_id() and current_user.importance != 0:
+        flash('У вас нет прав доступа к этому аккаунту', 'error')
+        return redirect(url_for('index'))
     user_form = UserForm()
     return render_template('user.html', user_form=user_form)
 

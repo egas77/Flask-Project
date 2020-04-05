@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_restful import Api
+from flask_script import Manager
 
 from config import Develop, Testing
 
@@ -20,8 +21,9 @@ def get_session() -> db.Session:
 from app import models, user_api
 
 api = Api(app)
-api.add_resource(user_api.UserResource, '/user-api')
+api.add_resource(user_api.UserResource, '/user-api', '/user-api/<int:user_id>')
 
 migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 mail = Mail(app)
+manager = Manager(app)
