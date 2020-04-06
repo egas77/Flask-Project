@@ -8,13 +8,19 @@
 {% block main %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h1>Пользователь: {{ user.login }}</h1>
+            {% if user.importance == 0 %}
+                <h1>Пользователь: {{ user.login }}</h1>
+            {% elif user.importance == 1 %}
+                <h1>Модератор: {{ user.login }}</h1>
+            {% elif user.importance == 2 %}
+                <h1>Администратор: {{ user.login }}</h1>
+            {% endif %}
             <div class="user-settings">
                 <div class="avatar-block">
-                    {% if current_user.image_file %}
+                    {% if user.image_file %}
                         <img class="user-avatar shadow"
-                             src="{{ url_for('static', filename=current_user.image_file) }}"
-                             alt={{ current_user.image_file }}>
+                             src="{{ url_for('static', filename=user.image_file) }}"
+                             alt={{ user.image_file }}>
                     {% else %}
                         <img class="user-avatar shadow"
                              src="{{ url_for('static', filename='img/users_avatar/default-user-avatar.png') }}"
@@ -36,7 +42,7 @@
                             <span class="user-span-button not-active-span">Аккаунт не подтвержден</span>
                             {% if current_user.get_id() == user.get_id() %}
                                 <br>
-                                <button class="button-link green-button" id="activate-button">
+                                <button class="button-link green-button title-button" id="activate-button">
                                     Подтвердить аккаунт
                                 </button>
                             {% endif %}
@@ -44,6 +50,12 @@
                     </div>
                     <div class="info-elem">
                         <span>Никнейм: {{ user.nickname }}</span>
+                        {% if current_user.get_id() == user.get_id() %}
+                            <button class="edit-button">Изменить никнейм...</button>
+                            <div>
+                                {{ user_form.nickname }}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="info-elem">
                         <span>Почта: {{ user.email }}</span>
@@ -54,7 +66,7 @@
                                 <span class="user-span-button active-span">Подписка подключена</span>
                                 {% if current_user.get_id() == user.get_id() %}
                                     <br>
-                                    <button class="button-link red-button" id="subscribe-button">
+                                    <button class="button-link red-button title-button" id="subscribe-button">
                                         Отключить подписку
                                     </button>
                                 {% endif %}
@@ -64,7 +76,7 @@
                                 <span class="user-span-button not-active-span">Подписка не подключена</span>
                                 {% if current_user.get_id() == user.get_id() %}
                                     <br>
-                                    <button class="button-link green-button"
+                                    <button class="button-link green-button title-button"
                                             id="subscribe-button">
                                         Подключить подписку
                                     </button>
@@ -86,7 +98,7 @@
             <span class="active-span">Подписка подключена</span>
             {% if current_user.get_id() == user.get_id() %}
                 <br>
-                <button class="button-link red-button"
+                <button class="button-link red-button title-button"
                         id="subscribe-button">
                     Отключить подписку
                 </button>
@@ -98,7 +110,7 @@
             <span class="not-active-span">Подписка не подключена</span>
             {% if current_user.get_id() == user.get_id() %}
                 <br>
-                <button class="button-link green-button"
+                <button class="button-link green-button title-button"
                         id="subscribe-button">
                     Подключить подписку
                 </button>

@@ -36,8 +36,7 @@ class AuthorizationForm(FlaskForm):
 
 
 class UserForm(FlaskForm):
-    image = FileField('Аватарка')
-    username = StringField('Имя')
+    nickname = StringField('Никнейм')
     email = EmailField('Электронная почта',
                        validators=[Email(message=email_message)])
     password = PasswordField('Пароль')

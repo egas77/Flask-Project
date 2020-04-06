@@ -62,10 +62,10 @@ class UserResource(Resource):
     def put(self, user_id):
         args = UserResource.parser_put.parse_args()
         user = User.get_query().get(user_id)
-        if 'password' in args:
+        if args['password'] is not None:
             if args['password'] != args['repeat_password']:
                 abort(400, message={'Ошибка': 'Пароли не совпадают'})
-        if 'email' in args:
+        if args['email'] is not None:
             duplicate_email_user = User.get_query().filter(User.email == args['email']).first()
             if duplicate_email_user:
                 abort(400, message={'Ошибка': 'Пользователь с такми email уже зарегистрирован'})

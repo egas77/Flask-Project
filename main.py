@@ -5,6 +5,7 @@ from flask_restful import abort
 import datetime
 import requests
 import base64
+import os
 
 from app import app, login_manager, get_session, api
 from app.forms import RegisterForm, AuthorizationForm, UserForm
@@ -138,8 +139,8 @@ def activate_email():
         return make_response(jsonify(
             {'message': result['message']}), 200)
     else:
-        flash(result['message'], 'success')
-        return redirect(url_for('index'))
+        return make_response(jsonify(
+            {'message': result['message']}), 200)
 
 
 @app.route('/subscribe')
@@ -197,4 +198,5 @@ def login_error(error):
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0')

@@ -55,6 +55,19 @@ body {
 }
 
 
+.edit-button, .edit-button:hover, .edit-button:active {
+    background: none;
+    border: none;
+    color: #371fa9;
+    font-size: 0.85em;
+}
+
+
+.edit-button:hover {
+    text-decoration: underline;
+}
+
+
 .content-header, .content-footer {
     max-width: 1700px;
     margin: 0 auto;

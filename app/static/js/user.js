@@ -16,7 +16,7 @@ $(document).ready(function () {
                 console.log('DONE IMAGE');
             }).fail(function (error) {
                 console.log(error);
-            })
+            });
         };
         reader.onerror = function () {
             console.log(reader.error);
