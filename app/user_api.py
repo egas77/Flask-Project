@@ -5,12 +5,20 @@ from app.models import User
 
 
 class UserResource(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('nickname', required=True)
-    parser.add_argument('login', required=True)
-    parser.add_argument('email', required=True)
-    parser.add_argument('password', required=True)
-    parser.add_argument('repeat_password', required=True)
+    parser_post = reqparse.RequestParser()
+    parser_post.add_argument('nickname', required=True)
+    parser_post.add_argument('login', required=True)
+    parser_post.add_argument('email', required=True)
+    parser_post.add_argument('password', required=True)
+    parser_post.add_argument('repeat_password', required=True)
+
+    parser_put = reqparse.RequestParser()
+    parser_put.add_argument('email')
+    parser_put.add_argument('password')
+    parser_put.add_argument('nickname')
+    parser_put.add_argument('importance', type=int)
+    parser_put.add_argument('confirmed', type=bool)
+    parser_put.add_argument('subscription', type=bool)
 
     def get(self, user_id):
         user = User.get_query().get(user_id)
@@ -21,7 +29,7 @@ class UserResource(Resource):
         )
 
     def post(self):
-        args = UserResource.parser.parse_args()  # <class 'requests.models.Response'>
+        args = UserResource.parser_post.parse_args()  # <class 'requests.models.Response'>
         if args['password'] != args['repeat_password']:
             abort(400, message={'Ошибка': 'Пароли не совпадают'})
         repeat_user_login = User.get_query().filter(User.login == args['login']).first()
@@ -49,8 +57,13 @@ class UserResource(Resource):
             ), 200
         )
 
-    def put(self):
-        pass
+    def put(self, user_id):
+        args = UserResource.parser_put.parse_args()
+        user = User.get_query().get(user_id)
+        for key, value in args.items():
+            if value is not None:
+                user.__setattr__(key, value)
+        get_session().commit()
 
     def delete(self, user_id):
         user = User.get_query().get(user_id)

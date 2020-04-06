@@ -32,4 +32,28 @@ $(document).ready(function () {
             activateButton.attr('disabled', false);
         });
     });
+
+    let subscribeBlock = $('#sub-block');
+    let subscribeButton = $('#subscribe-button');
+    let subOnTemplate = $('template#subscribe-on');
+    let subOffTemplate = $('template#subscribe-off');
+    function subscribe () {
+        $.ajax({
+            url: '/subscribe',
+            method: 'GET'
+        }).done(function (data) {
+            let subscribeStatus = data.subscribe_status;
+            subscribeBlock.empty();
+            if (subscribeStatus) {
+                subscribeBlock.append(subOnTemplate.html());
+            } else {
+                subscribeBlock.append(subOffTemplate.html());
+            }
+            let subscribeButton = $('#subscribe-button');
+            subscribeButton.bind('click', subscribe);
+        }).fail(function () {
+            console.log('Fail subscribe');
+        });
+    }
+    subscribeButton.bind('click', subscribe);
 });

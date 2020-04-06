@@ -55,7 +55,6 @@
 }
 
 
-
 .info-elem {
     margin-bottom: 20px;
 }
@@ -66,7 +65,8 @@
 
 
 .active-span {
-   color: #1BCA08;
+    color: #1BCA08;
+    font-weight: bolder;
 }
 
 

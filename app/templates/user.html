@@ -42,19 +42,25 @@
                     <div class="info-elem">
                         <span>Почта: {{ user.email }}</span>
                     </div>
-                    <div class="info-elem sub-block">
+                    <div class="info-elem sub-block" id="sub-block">
                         {% if user.subscription %}
                             <div class="sub-active">
                                 <span class="user-span-button active-span">Подписка подключена</span>
-                                <br>
-                                <button class="button-link red-button">Отключить подписку</button>
+                                {% if current_user.get_id() == user.get_id() %}
+                                    <br>
+                                    <button class="button-link red-button" id="subscribe-button">
+                                        Отключить подписку
+                                    </button>
+                                {% endif %}
                             </div>
                         {% else %}
                             <div class="sub-not-active">
                                 <span class="user-span-button not-active-span">Подписка не подключена</span>
                                 {% if current_user.get_id() == user.get_id() %}
                                     <br>
-                                    <button class="button-link green-button">Подключить подписку
+                                    <button class="button-link green-button"
+                                            id="subscribe-button">
+                                        Подключить подписку
                                     </button>
                                 {% endif %}
                             </div>
@@ -67,9 +73,37 @@
             </div>
         </div>
     </div>
+
+
+    <template id="subscribe-off">
+        <div class="sub-active">
+            <span class="active-span">Подписка подключена</span>
+            {% if current_user.get_id() == user.get_id() %}
+                <br>
+                <button class="button-link red-button"
+                        id="subscribe-button">
+                    Отключить подписку
+                </button>
+            {% endif %}
+        </div>
+    </template>
+    <template id="subscribe-on">
+        <div class="sub-not-active">
+            <span class="not-active-span">Подписка не подключена</span>
+            {% if current_user.get_id() == user.get_id() %}
+                <br>
+                <button class="button-link green-button"
+                        id="subscribe-button">
+                    Подключить подписку
+                </button>
+            {% endif %}
+        </div>
+    </template>
 {% endblock %}
 
 
 {% block script %}
     <script src="{{ url_for('static', filename='js/user.js') }}"></script>
 {% endblock %}
+
+

@@ -29,7 +29,7 @@ def registration():
     title = 'Регистрация'
     if register_form.validate_on_submit():
         response = requests.post(api.url_for(UserResource, _external=True),
-                                 data=request.form.to_dict())
+                                 json=request.form.to_dict())
         if response:
             flash('Регистрация прошла успешно', 'success')
             user = User.get_query().get(response.json()['user_id'])
@@ -139,6 +139,23 @@ def activate_email():
     else:
         flash(result['message'], 'success')
         return redirect(url_for('index'))
+
+
+@app.route('/subscribe')
+@login_required
+def subscribe():
+    user_id = current_user.get_id()
+    print(current_user.subscription)
+    if current_user.subscription:
+        print('DISABLE')
+        requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
+                     json={'subscription': False})
+    else:
+        requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
+                     json={'subscription': True})
+    return make_response(jsonify({
+        'subscribe_status': current_user.subscription
+    }), 200)
 
 
 @app.route('/logout')
