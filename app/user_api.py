@@ -15,10 +15,12 @@ class UserResource(Resource):
     parser_put = reqparse.RequestParser()
     parser_put.add_argument('email')
     parser_put.add_argument('password')
+    parser_put.add_argument('repeat_password')
     parser_put.add_argument('nickname')
     parser_put.add_argument('importance', type=int)
     parser_put.add_argument('confirmed', type=bool)
     parser_put.add_argument('subscription', type=bool)
+    parser_put.add_argument('image_file')
 
     def get(self, user_id):
         user = User.get_query().get(user_id)
@@ -60,9 +62,21 @@ class UserResource(Resource):
     def put(self, user_id):
         args = UserResource.parser_put.parse_args()
         user = User.get_query().get(user_id)
+        if 'password' in args:
+            if args['password'] != args['repeat_password']:
+                abort(400, message={'Ошибка': 'Пароли не совпадают'})
+        if 'email' in args:
+            duplicate_email_user = User.get_query().filter(User.email == args['email']).first()
+            if duplicate_email_user:
+                abort(400, message={'Ошибка': 'Пользователь с такми email уже зарегистрирован'})
+            else:
+                user.confirmed = False
         for key, value in args.items():
             if value is not None:
-                user.__setattr__(key, value)
+                if key == 'password':
+                    user.set_password(value)
+                else:
+                    user.__setattr__(key, value)
         get_session().commit()
 
     def delete(self, user_id):

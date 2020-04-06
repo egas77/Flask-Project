@@ -19,6 +19,7 @@ class User(db.Model, UserMixin, SerializerMixin):
     confirmed_date = db.Column(db.DateTime)
     registration_date = db.Column(db.Date, default=datetime.date.today())
     subscription = db.Column(db.Boolean, default=False)
+    image_file = db.Column(db.String)
 
     def __repr__(self):
         return '<User {} {}>'.format(self.login, self.id)

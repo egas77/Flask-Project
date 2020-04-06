@@ -4,6 +4,7 @@ from flask_restful import abort
 
 import datetime
 import requests
+import base64
 
 from app import app, login_manager, get_session, api
 from app.forms import RegisterForm, AuthorizationForm, UserForm
@@ -145,9 +146,7 @@ def activate_email():
 @login_required
 def subscribe():
     user_id = current_user.get_id()
-    print(current_user.subscription)
     if current_user.subscription:
-        print('DISABLE')
         requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
                      json={'subscription': False})
     else:
@@ -156,6 +155,26 @@ def subscribe():
     return make_response(jsonify({
         'subscribe_status': current_user.subscription
     }), 200)
+
+
+@app.route('/user-image', methods=['POST'])
+@login_required
+def user_image():
+    data_image = request.form.get('image').split(',', maxsplit=1)
+    format_img = data_image[0].split('/')[1].split(';')[0]
+    base_64_srt = data_image[1]
+    file_content = base64.b64decode(base_64_srt)
+    url_file = f'app/static/img/users_avatar/{current_user.get_id()}.{format_img}'
+    with open(url_file, mode='wb') as img_file:
+        img_file.write(file_content)
+    filename = f'img/users_avatar/{current_user.get_id()}.{format_img}'
+    user_id = current_user.get_id()
+    response = requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
+                            json={'image_file': filename})
+    if response:
+        return make_response(jsonify({'status': 'ok'}), 200)
+    else:
+        return make_response(jsonify({'status': 'error server'}), 400)
 
 
 @app.route('/logout')

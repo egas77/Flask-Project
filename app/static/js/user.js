@@ -8,6 +8,15 @@ $(document).ready(function () {
         reader.readAsDataURL(file);
         reader.onload = function () {
             image.attr('src', reader.result);
+            $.ajax({
+                'url': '/user-image',
+                'type': 'POST',
+                'data': {'image': reader.result}
+            }).done(function () {
+                console.log('DONE IMAGE');
+            }).fail(function (error) {
+                console.log(error);
+            })
         };
         reader.onerror = function () {
             console.log(reader.error);
@@ -37,10 +46,11 @@ $(document).ready(function () {
     let subscribeButton = $('#subscribe-button');
     let subOnTemplate = $('template#subscribe-on');
     let subOffTemplate = $('template#subscribe-off');
-    function subscribe () {
+
+    function subscribe() {
         $.ajax({
             url: '/subscribe',
-            method: 'GET'
+            type: 'GET'
         }).done(function (data) {
             let subscribeStatus = data.subscribe_status;
             subscribeBlock.empty();
@@ -55,5 +65,6 @@ $(document).ready(function () {
             console.log('Fail subscribe');
         });
     }
+
     subscribeButton.bind('click', subscribe);
 });
