@@ -5,6 +5,7 @@
 @import "footer.css";
 @import "flash.css";
 @import "user.css";
+@import "editor.css";
 
 
 html {
@@ -27,6 +28,9 @@ button, button:active, button:focus {
 
 a {
     text-decoration: none;
+}
+
+header a {
     color: #FDF2FF;
 }
 

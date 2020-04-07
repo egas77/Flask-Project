@@ -33,3 +33,17 @@ class User(db.Model, UserMixin, SerializerMixin):
     @staticmethod
     def get_query() -> BaseQuery:
         return User.query
+
+
+class Post(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String)
+    data = db.Column(db.Text)
+    publication_date = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return 'Post {} {}'.format(self.title, self.id)
+
+    @staticmethod
+    def get_query() -> BaseQuery:
+        return Post.query

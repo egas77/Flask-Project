@@ -1,5 +1,6 @@
 console.log('Complete connect script user');
 $(document).ready(function () {
+    // For image avatar
     let reader = new FileReader();
     let imageInput = $('#input-image');
     let image = $('.user-avatar');
@@ -23,6 +24,7 @@ $(document).ready(function () {
         };
     });
 
+    // For activate button email
     let activateButton = $('#activate-button');
     activateButton.bind('click', function () {
         activateButton.addClass('disable-button');
@@ -42,6 +44,7 @@ $(document).ready(function () {
         });
     });
 
+    // For subscribe
     let subscribeBlock = $('#sub-block');
     let subscribeButton = $('#subscribe-button');
     let subOnTemplate = $('template#subscribe-on');
@@ -68,6 +71,7 @@ $(document).ready(function () {
 
     subscribeButton.bind('click', subscribe);
 
+    // For edit nickname
     let nicknameModal = $('#nickname-modal');
     let nicknameModalCloseButton = nicknameModal.find('.close-model');
     let nicknameModalForm = nicknameModal.find('form');
@@ -97,6 +101,7 @@ $(document).ready(function () {
         });
     });
 
+    // For edit email
     let emailModal = $('#email-modal');
     let emailModalCloseButton = emailModal.find('.close-model');
     let emailModalForm = emailModal.find('form');
@@ -129,6 +134,7 @@ $(document).ready(function () {
         });
     });
 
+    // For edit password
     let passwordModal = $('#password-modal');
     let passwordModalCloseButton = passwordModal.find('.close-model');
     let passwordModalForm = passwordModal.find('form');

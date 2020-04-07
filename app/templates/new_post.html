@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+    <div class="main-item shadow">
+        <div class="content-main-item editor-block">
+            <form method="post">
+                <textarea name="editor" id="editor" class="editor">
+                This is my textarea to be replaced with CKEditor.
+                </textarea>
+                <input type="submit">
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('editor');
+    </script>
+{% endblock %}

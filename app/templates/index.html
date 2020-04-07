@@ -6,6 +6,13 @@
 
 
 {% block main %}
+    {% if current_user.is_authenticated %}
+        {% if current_user.importance == 1 or current_user.importance == 2 %}
+            <div class="main-item shadow create-post">
+                <a href="{{ url_for('new_post') }}">Создать запись</a>
+            </div>
+        {% endif %}
+    {% endif %}
     <div class="main-item shadow">
         <div class="content-main-item">
             <h1>Content Main1</h1>
