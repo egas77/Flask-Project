@@ -33,14 +33,3 @@ class AuthorizationForm(FlaskForm):
                              validators=[DataRequired(message=required_message.format('паролем'))])
     remember = BooleanField('Запомнить')
     submit = SubmitField('Войти')
-
-
-class UserForm(FlaskForm):
-    nickname = StringField('Никнейм')
-    email = EmailField('Электронная почта',
-                       validators=[Email(message=email_message)])
-    password = PasswordField('Пароль')
-    repeat_password = PasswordField('Повторите пароль')
-    importance = SelectField('Роль пользователя',
-                             choices=[(0, 'Пользователь'), (1, 'Модератор'), (2, 'Администратор')])
-    submit = SubmitField('Изменить')

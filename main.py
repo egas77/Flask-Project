@@ -8,7 +8,7 @@ import base64
 import os
 
 from app import app, login_manager, get_session, api
-from app.forms import RegisterForm, AuthorizationForm, UserForm
+from app.forms import RegisterForm, AuthorizationForm
 from app.models import User
 from app.token import send_confirm_message, confirm_token
 from app.user_api import UserResource
@@ -123,11 +123,10 @@ def user_page(user_id):
     if user_id != int(current_user.get_id()) and current_user.importance != 2:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
-    user_form = UserForm()
     user = User.get_query().get(user_id)
     if user:
         if request.method == 'GET':
-            return render_template('user.html', user_form=user_form, user=user)
+            return render_template('user.html', user=user)
     abort(401)
 
 
@@ -183,6 +182,10 @@ def user_image():
 def edit_user():
     old_password = request.form.get('old_password', None)
     if old_password:
+        if not current_user.confirmed:
+            return make_response(jsonify({
+                'message': {'Ошибка': 'Аккаунт не подтвержден'}
+            }), 400)
         if not current_user.check_password(old_password):
             return make_response(jsonify({
                 'message': {'Ошибка': 'Неверный пароль'}
