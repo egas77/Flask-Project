@@ -67,4 +67,93 @@ $(document).ready(function () {
     }
 
     subscribeButton.bind('click', subscribe);
+
+    let nicknameModal = $('#nickname-modal');
+    let nicknameModalCloseButton = nicknameModal.find('.close-model');
+    let nicknameModalForm = nicknameModal.find('form');
+    let nicknameOpenModelButton = $('#open-model-nickname');
+    let nicknameString = $('#nickname');
+    nicknameOpenModelButton.bind('click', function () {
+        nicknameModal.addClass('modal-visible');
+    });
+    nicknameModalCloseButton.bind('click', function () {
+        nicknameModal.removeClass('modal-visible');
+    });
+    nicknameModalForm.bind('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/edit-user',
+            type: 'POST',
+            data: nicknameModalForm.serialize()
+        }).done(function () {
+            let newNickname = nicknameModalForm.serializeArray()[0].value;
+            nicknameString.text('Никнейм: ' + newNickname);
+            nicknameModal.removeClass('modal-visible');
+        }).fail(function (error) {
+            for (let key in error.responseJSON.message) {
+                let message = key + ': ' + error.responseJSON.message[key];
+                createFlash('error', message);
+            }
+        });
+    });
+
+    let emailModal = $('#email-modal');
+    let emailModalCloseButton = emailModal.find('.close-model');
+    let emailModalForm = emailModal.find('form');
+    let emailOpenModelButton = $('#open-model-email');
+    let emailString = $('#email');
+    console.log(emailModal);
+    console.log(emailOpenModelButton);
+    emailOpenModelButton.bind('click', function () {
+        emailModal.addClass('modal-visible');
+    });
+    emailModalCloseButton.bind('click', function () {
+        emailModal.removeClass('modal-visible');
+    });
+    emailModalForm.bind('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/edit-user',
+            type: 'POST',
+            data: emailModalForm.serialize()
+        }).done(function () {
+            let newEmail = emailModalForm.serializeArray()[0].value;
+            emailString.text('Почта: ' + newEmail);
+            emailModal.removeClass('modal-visible');
+            document.location.href = '/logout';
+        }).fail(function (error) {
+            for (let key in error.responseJSON.message) {
+                let message = key + ': ' + error.responseJSON.message[key];
+                createFlash('error', message);
+            }
+        });
+    });
+
+    let passwordModal = $('#password-modal');
+    let passwordModalCloseButton = passwordModal.find('.close-model');
+    let passwordModalForm = passwordModal.find('form');
+    let passwordOpenModelButton = $('#open-model-password');
+    console.log(passwordModal);
+    console.log(passwordOpenModelButton);
+    passwordOpenModelButton.bind('click', function () {
+        passwordModal.addClass('modal-visible');
+    });
+    passwordModalCloseButton.bind('click', function () {
+        passwordModal.removeClass('modal-visible');
+    });
+    passwordModalForm.bind('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: '/edit-user',
+            type: 'POST',
+            data: passwordModalForm.serialize()
+        }).done(function () {
+            passwordModal.removeClass('modal-visible');
+        }).fail(function (error) {
+            for (let key in error.responseJSON.message) {
+                let message = key + ': ' + error.responseJSON.message[key];
+                createFlash('error', message);
+            }
+        });
+    });
 });

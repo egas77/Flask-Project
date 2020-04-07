@@ -46,7 +46,7 @@ def send_confirm_message(user):
             mail.send(confirm_message)
         return {
             'status': True,
-            'message': 'На вашу почту отправлена инструкция для подтверждения регистрации'
+            'message': 'На вашу почту отправлена инструкция для активации аккаунта'
         }
     else:
         return {

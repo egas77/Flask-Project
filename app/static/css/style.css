@@ -55,11 +55,12 @@ body {
 }
 
 
-.edit-button, .edit-button:hover, .edit-button:active {
+.edit-button, .edit-button:hover, .edit-button:active, .edit-button:focus {
     background: none;
     border: none;
     color: #371fa9;
     font-size: 0.85em;
+    outline: none;
 }
 
 

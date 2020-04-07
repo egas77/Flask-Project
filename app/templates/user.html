@@ -38,27 +38,125 @@
                     <div class="info-elem">
                         {% if user.confirmed %}
                             <span class="active-span">Аккаунт подтвержден</span>
+                            {% if current_user.get_id() == user.get_id() %}
+                                <button class="edit-button" id="open-model-password">Изменить
+                                    пароль...
+                                </button>
+                                <div class="modal-window" id="password-modal" hidden>
+                                    <div class="modal-content shadow">
+                                        <div style="text-align: right">
+                                            <button class="close-model">&#x2716;</button>
+                                        </div>
+                                        <div class="title-modal" style="text-align: center">
+                                            <h3 style="margin-top: 0">Новый пароль</h3>
+                                        </div>
+                                        <div class="form-container">
+                                            <form class="password-form">
+                                                <div class="form-group">
+                                                    <input type="password" name="old_password"
+                                                           id="old_password"
+                                                           placeholder="Старый пароль"
+                                                           class="form-field string-field"
+                                                           required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="password" name="password"
+                                                           id="password"
+                                                           placeholder="Новый пароль"
+                                                           class="form-field string-field"
+                                                           required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="password" name="repeat_password"
+                                                           id="repeat_password"
+                                                           placeholder="Новый пароль"
+                                                           class="form-field string-field"
+                                                           required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input class="form-field submit-field button-link green-button"
+                                                           type="submit" value="Изменить">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
                         {% else %}
                             <span class="user-span-button not-active-span">Аккаунт не подтвержден</span>
                             {% if current_user.get_id() == user.get_id() %}
                                 <br>
-                                <button class="button-link green-button title-button" id="activate-button">
+                                <button class="button-link green-button title-button"
+                                        id="activate-button">
                                     Подтвердить аккаунт
                                 </button>
                             {% endif %}
                         {% endif %}
                     </div>
                     <div class="info-elem">
-                        <span>Никнейм: {{ user.nickname }}</span>
+                        <span id="nickname">Никнейм: {{ user.nickname }}</span>
                         {% if current_user.get_id() == user.get_id() %}
-                            <button class="edit-button">Изменить никнейм...</button>
-                            <div>
-                                {{ user_form.nickname }}
+                            <button class="edit-button" id="open-model-nickname">Изменить
+                                никнейм...
+                            </button>
+                            <div class="modal-window" id="nickname-modal" hidden>
+                                <div class="modal-content shadow">
+                                    <div style="text-align: right">
+                                        <button class="close-model">&#x2716;</button>
+                                    </div>
+                                    <div class="title-modal" style="text-align: center">
+                                        <h3 style="margin-top: 0">Никнейм</h3>
+                                    </div>
+                                    <div class="form-container">
+                                        <form class="nickname-form">
+                                            <div class="form-group">
+                                                <input type="text" name="nickname" id="nickname"
+                                                       placeholder="Никнейм"
+                                                       class="form-field string-field"
+                                                       required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-field submit-field button-link green-button"
+                                                       type="submit" value="Изменить">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         {% endif %}
                     </div>
                     <div class="info-elem">
-                        <span>Почта: {{ user.email }}</span>
+                        <span id="email">Почта: {{ user.email }}</span>
+                        {% if current_user.get_id() == user.get_id() %}
+                            <button class="edit-button" id="open-model-email">Изменить почту...
+                            </button>
+                            <div class="modal-window" id="email-modal">
+                                <div class="modal-content shadow">
+                                    <div style="text-align: right">
+                                        <button class="close-model">&#x2716;</button>
+                                    </div>
+                                    <div class="title-modal" style="text-align: center">
+                                        <h3 style="margin-top: 0">Почта</h3>
+                                    </div>
+                                    <div class="form-container">
+                                        <form class="email-form">
+                                            <div class="form-group">
+                                                <input type="email" name="email" id="email"
+                                                       placeholder="Новая почта"
+                                                       class="form-field string-field">
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="form-field submit-field button-link green-button"
+                                                       type="submit" value="Изменить">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="info-elem">
+                        <span>Дата регистрации: {{ user.registration_date }}</span>
                     </div>
                     <div class="info-elem sub-block" id="sub-block">
                         {% if user.subscription %}
@@ -66,7 +164,8 @@
                                 <span class="user-span-button active-span">Подписка подключена</span>
                                 {% if current_user.get_id() == user.get_id() %}
                                     <br>
-                                    <button class="button-link red-button title-button" id="subscribe-button">
+                                    <button class="button-link red-button title-button"
+                                            id="subscribe-button">
                                         Отключить подписку
                                     </button>
                                 {% endif %}
@@ -83,9 +182,6 @@
                                 {% endif %}
                             </div>
                         {% endif %}
-                    </div>
-                    <div class="info-elem">
-                        <span>Дата регистрации: {{ user.registration_date }}</span>
                     </div>
                 </div>
             </div>

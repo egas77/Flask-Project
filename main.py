@@ -178,6 +178,24 @@ def user_image():
         return make_response(jsonify({'status': 'error server'}), 400)
 
 
+@app.route('/edit-user', methods=['POST'])
+@login_required
+def edit_user():
+    old_password = request.form.get('old_password', None)
+    if old_password:
+        if not current_user.check_password(old_password):
+            return make_response(jsonify({
+                'message': {'Ошибка': 'Неверный пароль'}
+            }), 400)
+    user_id = current_user.get_id()
+    response = requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
+                            json=request.form.to_dict())
+    if response:
+        return make_response(jsonify({'message': 'status ok'}), 200)
+    else:
+        return make_response(jsonify(response.json()), 400)
+
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -199,4 +217,4 @@ def login_error(error):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0')
+    app.run()

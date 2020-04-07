@@ -81,3 +81,43 @@
     margin-top: 5px;
 }
 
+
+.modal-window {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+.modal-content {
+    margin: 0;
+    background: #B4B6CE;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+    border: 2px solid #282536;
+    min-width: 400px;
+}
+
+
+.modal-window .close-model {
+    padding: 5px 10px 0;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 1.15em;
+}
+
+
+.modal-window .close-model:focus {
+    outline: none;
+}
+
+
+.modal-visible {
+    display: block;
+}
