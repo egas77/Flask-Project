@@ -68,3 +68,24 @@ main {
 .disable-button, .disable-button:hover {
     background-color: #434343;
 }
+
+
+.create-post {
+    padding: 10px;
+    text-align: center;
+}
+
+
+.create-post a {
+    padding: 10px;
+    display: inline-block;
+    border: 2px dashed #282536;
+    color: #282536;
+    width: 100%;
+}
+
+
+.create-post a:hover {
+    border-color: #8056ff;
+    color: #371fa9;
+}

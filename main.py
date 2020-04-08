@@ -199,6 +199,25 @@ def edit_user():
         return make_response(jsonify(response.json()), 400)
 
 
+@app.route('/new-post', methods=['GET', 'POST'])
+@login_required
+def new_post():
+    return render_template('new_post.html')
+
+
+@app.route('/upload-image', methods=['POST'])
+def upload_image_creator():
+    image = request.files.get('upload')
+    url_image = 'static/img/' + image.filename
+    image.save('app/' + url_image)
+    print(request.files)
+    return make_response(jsonify({
+        'uploaded': 1,
+        'fileName': image.filename,
+        'url': url_image
+    }))
+
+
 @app.route('/logout')
 @login_required
 def logout():
