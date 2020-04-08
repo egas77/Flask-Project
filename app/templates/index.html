@@ -13,14 +13,24 @@
             </div>
         {% endif %}
     {% endif %}
+    {% for post in posts %}
+        <div class="main-item shadow">
+            <div class="content-main-item">
+                <h2>{{ post.title }}</h2>
+                <div class="ck-content clearfix">
+                    {{ post.data|safe }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h1>Content Main1</h1>
+            <h2>Content Main1</h2>
         </div>
     </div>
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h1>Content Main2</h1>
+            <h2>Content Main2</h2>
         </div>
     </div>
 {% endblock %}

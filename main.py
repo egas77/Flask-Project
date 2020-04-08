@@ -1,14 +1,18 @@
 from flask import render_template, flash
+from sqlalchemy import desc
 
 import os
 
 from app import app
+from app.models import Post
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    posts = Post.get_query().order_by(desc(Post.id)).all()
+
+    return render_template('index.html', posts=posts)
 
 
 @app.errorhandler(404)

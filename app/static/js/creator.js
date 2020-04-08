@@ -1,5 +1,5 @@
 ClassicEditor
-    .create(document.querySelector('.editor'), {
+    .create(document.querySelector('#editor'), {
 
         toolbar: {
             items: [
@@ -50,6 +50,9 @@ ClassicEditor
         ckfinder: {
             // Upload the images to the server using the CKFinder QuickUpload command.
             uploadUrl: '/upload-image?command=QuickUpload&type=Files&responseType=json'
+        },
+        mediaEmbed: {
+            previewsInData: true
         }
 
     })

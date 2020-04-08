@@ -39,7 +39,7 @@ class Post(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String)
     data = db.Column(db.Text)
-    publication_date = db.Column(db.DateTime)
+    publication_date = db.Column(db.DateTime, default=datetime.datetime.now())
 
     def __repr__(self):
         return 'Post {} {}'.format(self.title, self.id)

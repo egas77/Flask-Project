@@ -32,7 +32,7 @@ main {
     line-height: 34px;
     font-size: 15px;
     padding: 0 5px;
-    border: 1px solid #FDF2FF;
+    border: 1px solid #1c1056;
 }
 
 
@@ -62,6 +62,16 @@ main {
 
 .green-button:hover {
     background-color: #149306;
+}
+
+
+.blue-button {
+    background-color: #371fa9;
+}
+
+
+.blue-button:hover {
+    background-color: #1c1056
 }
 
 
