@@ -13,24 +13,36 @@
             </div>
         {% endif %}
     {% endif %}
-    {% for post in posts %}
-        <div class="main-item shadow">
-            <div class="content-main-item">
-                <h2>{{ post.title }}</h2>
-                <div class="ck-content clearfix">
-                    {{ post.content|safe }}
+    {% if posts %}
+        {% for post in posts.items %}
+            <div class="main-item shadow">
+                <div class="content-main-item">
+                    <h2>{{ post.title }}</h2>
+                    {{ post.publication_date }}
+                    <div class="ck-content clearfix">
+                        {{ post.content|safe }}
+                    </div>
                 </div>
             </div>
+        {% endfor %}
+        <div class="paginate" style="text-align: right">
+            {% if posts.has_prev %}
+                <a class="page-link" href="{{ url_for('index', page=posts.prev_num) }}"><</a>
+            {% endif %}
+            {% for page in posts.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+                {% if page %}
+                    {% if page != posts.page %}
+                        <a class="page-link" href="{{ url_for('index', page=page) }}">{{ page }}</a>
+                    {% else %}
+                        <strong>{{ page }}</strong>
+                    {% endif %}
+                {% else %}
+                    <span class=ellipsis>…</span>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <a class="page-link" href="{{ url_for('index', page=posts.next_num) }}">></a>
+            {% endif %}
         </div>
-    {% endfor %}
-    <div class="main-item shadow">
-        <div class="content-main-item">
-            <h2>Content Main1</h2>
-        </div>
-    </div>
-    <div class="main-item shadow">
-        <div class="content-main-item">
-            <h2>Content Main2</h2>
-        </div>
-    </div>
+    {% endif %}
 {% endblock %}

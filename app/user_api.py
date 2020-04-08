@@ -87,8 +87,3 @@ class UserResource(Resource):
             session = get_session()
             session.delete(user)
             session.commit()
-
-
-class Users(Resource):
-    def get(self):
-        pass

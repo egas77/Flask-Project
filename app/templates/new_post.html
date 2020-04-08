@@ -3,18 +3,21 @@
 {% block main %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h2 class="title-main-item">Новая запись</h2>
+            <h2>Новая запись</h2>
             <form method="post" id="ckeditor-form">
                 <div class="form-group">
                     <input type="text" id="title-post" name="title-post"
                            class="form-field string-field" placeholder="Заголовок"
-                            style="font-size: 1.15em">
+                           style="font-size: 1.15em" required>
                 </div>
-                <textarea name="content" id="editor">
-                    &lt;p&gt;This is some sample content.&lt;/p&gt;
+                <div class="form-group">
+                     <textarea name="content" id="editor" placeholder="Контент" required>
                 </textarea>
-                <p style="text-align: right"><input type="submit" value="Опубликовать"
-                                                    class="button-link blue-button"></p>
+                </div>
+                <div style="text-align: right">
+                    <input type="submit" value="Опубликовать"
+                           class="button-link blue-button">
+                </div>
             </form>
         </div>
     </div>

@@ -9,9 +9,11 @@ from app.models import Post
 
 @app.route('/')
 @app.route('/index')
-def index():
-    posts = Post.get_query().order_by(desc(Post.id)).all()
-
+@app.route('/index/<int:page>')
+def index(page=1):
+    posts = Post.get_query().order_by(desc(Post.publication_date)).paginate(page,
+                                                              app.config.get('POSTS_ON_PAGE', 5),
+                                                              False)
     return render_template('index.html', posts=posts)
 
 

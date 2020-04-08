@@ -99,3 +99,9 @@ main {
     border-color: #8056ff;
     color: #371fa9;
 }
+
+
+.page-link {
+    padding: 10px;
+    border: 1px solid #282536;
+}

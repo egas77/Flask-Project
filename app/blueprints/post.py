@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, make_response, jsonify
+from flask import Blueprint, render_template, request, make_response, jsonify, redirect, url_for
 from flask_login import login_required
 
 from app import get_session
@@ -19,7 +19,13 @@ def new_post():
         session = get_session()
         session.add(post)
         session.commit()
+        return redirect(url_for('index'))
     return render_template('new_post.html')
+
+
+@blueprint_post.route('/post/<int:post_id>')
+def view_post(post_id):
+    return render_template('index.html')
 
 
 @blueprint_post.route('/upload-image', methods=['POST'])
