@@ -15,7 +15,7 @@ def new_post():
         title = request.form.get('title-post')
         content = request.form.get('content', None)
         post.title = title
-        post.data = content
+        post.content = content
         session = get_session()
         session.add(post)
         session.commit()
