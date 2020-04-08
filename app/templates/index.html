@@ -9,7 +9,7 @@
     {% if current_user.is_authenticated %}
         {% if current_user.importance == 1 or current_user.importance == 2 %}
             <div class="main-item shadow create-post">
-                <a href="{{ url_for('new_post') }}">Создать запись</a>
+                <a href="{{ url_for('post.new_post') }}">Создать запись</a>
             </div>
         {% endif %}
     {% endif %}

@@ -22,14 +22,14 @@
         </nav>
         <div class="user-block">
             {% if current_user.is_authenticated %}
-                <a href="{{ url_for('user_page', user_id=current_user.get_id()) }}"
+                <a href="{{ url_for('user.user_page', user_id=current_user.get_id()) }}"
                    class="user-name">{{ current_user.login }}</a>
-                <a class="button-link logout-button" href="{{ url_for('logout') }}">Выйти</a>
+                <a class="button-link logout-button" href="{{ url_for('user.logout') }}">Выйти</a>
             {% else %}
                 <a class="button-link red-button"
-                   href="{{ url_for('registration') }}">Регистрация</a>
+                   href="{{ url_for('user.registration') }}">Регистрация</a>
                 <a class="button-link green-button"
-                   href="{{ url_for('login') }}">Войти</a>
+                   href="{{ url_for('user.login') }}">Войти</a>
             {% endif %}
         </div>
     </div>
