@@ -105,3 +105,16 @@ main {
     padding: 10px;
     border: 1px solid #282536;
 }
+
+
+.title-post {
+    display: inline-block;
+    margin: auto;
+}
+
+
+.edit-post-button, .edit-post-button:focus {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

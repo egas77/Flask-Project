@@ -1,0 +1,15 @@
+<div class="main-item shadow">
+    <div class="content-main-item">
+        <div style="float: right">
+            <span>{{ post.publication_date }}</span>
+            <a class="edit-post-button" href="{{ url_for('post.create_post', post_id=post.id) }}"><img src="{{ url_for('static', filename='img/buttons/edit_button.png') }}"
+                         alt="edit_button.png" style="width: 20px"></a>
+        </div>
+        <div>
+            <a href="{{ url_for('post.view_post', post_id=post.id) }}" style="color: inherit"><h2 class="title-post">{{ post.title }}</h2></a>
+        </div>
+        <div class="ck-content clearfix">
+            {{ post.content|safe }}
+        </div>
+    </div>
+</div>

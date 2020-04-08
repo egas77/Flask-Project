@@ -3,20 +3,29 @@
 {% block main %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h2>Новая запись</h2>
+            {% if post %}
+                <h2>Редактирование</h2>
+            {% else %}
+                <h2>Новая запись</h2>
+            {% endif %}
             <form method="post" id="ckeditor-form">
                 <div class="form-group">
                     <input type="text" id="title-post" name="title-post"
                            class="form-field string-field" placeholder="Заголовок"
-                           style="font-size: 1.15em" required>
+                           style="font-size: 1.15em" required value="">
                 </div>
                 <div class="form-group">
                      <textarea name="content" id="editor" placeholder="Контент" required>
                 </textarea>
                 </div>
                 <div style="text-align: right">
-                    <input type="submit" value="Опубликовать"
-                           class="button-link blue-button">
+                    {% if post %}
+                        <input type="submit" value="Изменить"
+                               class="button-link blue-button">
+                    {% else %}
+                        <input type="submit" value="Опубликовать"
+                               class="button-link blue-button">
+                    {% endif %}
                 </div>
             </form>
         </div>
@@ -27,4 +36,12 @@
     <script src="https://ckeditor.com/apps/ckfinder/3.5.0/ckfinder.js"></script>
     <script src="{{ url_for('static', filename='ckeditor5/build/ckeditor.js') }}"></script>
     <script src="{{ url_for('static', filename='js/creator.js') }}"></script>
+    {% if post %}
+        <script>
+        $(document).ready(function () {
+            $('#title-post').val('{{ post.title }}')
+            editor.setData(`{{ post.content|safe }}`);
+        })
+        </script>
+    {% endif %}
 {% endblock %}

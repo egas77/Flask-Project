@@ -9,21 +9,13 @@
     {% if current_user.is_authenticated %}
         {% if current_user.importance == 1 or current_user.importance == 2 %}
             <div class="main-item shadow create-post">
-                <a href="{{ url_for('post.new_post') }}">Создать запись</a>
+                <a href="{{ url_for('post.create_post') }}">Создать запись</a>
             </div>
         {% endif %}
     {% endif %}
     {% if posts %}
         {% for post in posts.items %}
-            <div class="main-item shadow">
-                <div class="content-main-item">
-                    <h2>{{ post.title }}</h2>
-                    {{ post.publication_date }}
-                    <div class="ck-content clearfix">
-                        {{ post.content|safe }}
-                    </div>
-                </div>
-            </div>
+            {% include 'post_template.html' %}
         {% endfor %}
         <div class="paginate" style="text-align: right">
             {% if posts.has_prev %}
