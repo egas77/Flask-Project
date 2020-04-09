@@ -56,6 +56,8 @@ def upload_image_creator():
 
 def subscribe_new_post(post_id):
     users = User.get_query().filter(User.subscription).all()
+    if not users:
+        return
     subject = 'Вышла новая запись'
     url = url_for('post.view_post', post_id=post_id, _external=True)
     template = render_template('new_post_subscribe.html', url=url)

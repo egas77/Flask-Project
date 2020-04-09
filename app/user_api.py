@@ -71,6 +71,7 @@ class UserResource(Resource):
                 abort(400, message={'Ошибка': 'Пользователь с такми email уже зарегистрирован'})
             else:
                 user.confirmed = False
+                user.subscription = False
         for key, value in args.items():
             if value is not None:
                 if key == 'password':

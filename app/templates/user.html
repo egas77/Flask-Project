@@ -175,10 +175,14 @@
                                 <span class="user-span-button not-active-span">Подписка не подключена</span>
                                 {% if current_user.get_id() == user.get_id() %}
                                     <br>
-                                    <button class="button-link green-button title-button"
-                                            id="subscribe-button">
-                                        Подключить подписку
-                                    </button>
+                                    {% if current_user.confirmed %}
+                                        <button class="button-link green-button title-button"
+                                                id="subscribe-button">
+                                            Подключить подписку
+                                        </button>
+                                    {% else %}
+                                        <span>Для активации подписки подтвердите аккаунт</span>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         {% endif %}
@@ -187,7 +191,6 @@
             </div>
         </div>
     </div>
-
 
     <template id="subscribe-off">
         <div class="sub-active">
