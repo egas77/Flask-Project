@@ -1,8 +1,9 @@
 <div class="main-item shadow">
     <div class="content-main-item">
         <div style="float: right">
-            <span style="margin-right: 10px">{{ post.publication_date_string }}</span>
-            {% if current_user.is_authenticated and current_user.importance in [1, 2] %}
+            <span style="margin-right: 10px">{{ post.author.nickname }} | {{ post.publication_date_string }}</span>
+            {% if current_user.is_authenticated and
+                    (current_user.importance == 2 or post.author.get_id() == current_user.get_id()) %}
                 <a class="edit-post-button"
                    href="{{ url_for('post.create_post', post_id=post.id) }}"><img
                         src="{{ url_for('static', filename='img/buttons/edit_button.png') }}"
@@ -18,7 +19,8 @@
                             <button class="close-model">&#x2716;</button>
                         </div>
                         <div class="title-modal" style="text-align: center">
-                            <h3 class="modal-title" style="margin-top: 0">Удалить запись {{ post.title }}</h3>
+                            <h3 class="modal-title" style="margin-top: 0">Удалить
+                                запись {{ post.title }}</h3>
                         </div>
                         <div class="form-container">
                             <form>

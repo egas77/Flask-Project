@@ -21,6 +21,8 @@ class User(db.Model, UserMixin, SerializerMixin):
     subscription = db.Column(db.Boolean, default=False)
     image_file = db.Column(db.String)
 
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
     def __repr__(self):
         return '<User {} {}>'.format(self.login, self.id)
 
@@ -41,6 +43,7 @@ class Post(db.Model, SerializerMixin):
     content = db.Column(db.Text)
     publication_date = db.Column(db.DateTime, default=datetime.datetime.now())
     publication_date_string = db.Column(db.String)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return 'Post {} {}'.format(self.title, self.id)

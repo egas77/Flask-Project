@@ -24,6 +24,7 @@ class PostResource(Resource):
     parser_post = reqparse.RequestParser()
     parser_post.add_argument('title', required=True)
     parser_post.add_argument('content', required=True)
+    parser_post.add_argument('author_id', required=True)
 
     parser_put = reqparse.RequestParser()
     parser_put.add_argument('title', required=True)

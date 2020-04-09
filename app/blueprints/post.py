@@ -22,12 +22,13 @@ def create_post(post_id=None):
         flash('У вас нет доступа к данной странице', 'error')
         return redirect(url_for('index'))
     if request.method == 'POST':
+        json = request.form.to_dict()
         if post_id:
             response = requests.put(api.url_for(PostResource, post_id=post_id, _external=True),
-                                    json=request.form.to_dict())
+                                    json=json)
         else:
-            response = requests.post(api.url_for(PostResource, _external=True),
-                                     json=request.form.to_dict())
+            json['author_id'] = current_user.get_id()
+            response = requests.post(api.url_for(PostResource, _external=True), json=json)
             subscribe_new_post(response.json()['post_id'])
         if response:
             return redirect(url_for('index'))
@@ -35,15 +36,39 @@ def create_post(post_id=None):
             return make_response(jsonify(response.json()), 400)
     if post_id:
         post = Post.get_query().get(post_id)
-        return render_template('new_post.html', post=post)
+        if current_user.importance == 2 or post.author.get_id() == current_user.get_id():
+            return render_template('new_post.html', post=post)
+        else:
+            flash('Вы не можете редактировать этот пост', 'error')
+            return redirect(url_for('index'))
     return render_template('new_post.html')
+
+
+@blueprint_post.route('/delete-post/<int:post_id>')
+@login_required
+def delete_post(post_id):
+    if current_user.importance == 0:
+        return make_response(jsonify({
+            'message': {'Ошибка': 'У вас нет прав не это действие'}
+        }), 400)
+    post = Post.get_query().get_or_404(post_id)
+    if current_user.importance == 2 or post.author.get_id() == current_user.get_id():
+        response = requests.delete(api.url_for(PostResource, post_id=post_id, _external=True))
+        if not response:
+            flash(response.json()['message'], 'error')
+            return make_response(jsonify(response.json()), response.status_code)
+        return make_response(jsonify({
+            'status': 'OK'
+        }), 200)
+    else:
+        return make_response(jsonify({
+            'message': {'Ошибка': 'У вас нет прав не это действие'}
+        }), 401)
 
 
 @blueprint_post.route('/post/<int:post_id>')
 def view_post(post_id):
-    post = Post.get_query().get(post_id)
-    if not post:
-        abort(404)
+    post = Post.get_query().get_or_404(post_id)
     return render_template('post.html', post=post)
 
 
