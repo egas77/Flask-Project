@@ -26,9 +26,9 @@ class UserResource(Resource):
         user = User.get_query().get(user_id)
         if not user:
             abort(400, message={'Error': 'User not found'})
-        return jsonify(
+        return make_response(jsonify(
             user.to_dict()
-        )
+        ), 200)
 
     def post(self):
         args = UserResource.parser_post.parse_args()  # <class 'requests.models.Response'>
@@ -78,6 +78,9 @@ class UserResource(Resource):
                 else:
                     user.__setattr__(key, value)
         get_session().commit()
+        return make_response(jsonify({
+            'status': 'OK'
+        }), 200)
 
     def delete(self, user_id):
         user = User.get_query().get(user_id)
@@ -87,3 +90,6 @@ class UserResource(Resource):
             session = get_session()
             session.delete(user)
             session.commit()
+            return make_response(jsonify({
+                'status': 'OK'
+            }), 200)

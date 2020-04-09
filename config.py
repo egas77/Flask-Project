@@ -16,7 +16,7 @@ class Config(object):
     MAIL_DEFAULT_SENDER = 'blogflask89@gmail.com'
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
 
-    POSTS_ON_PAGE = 1
+    POSTS_ON_PAGE = 5
 
 
 class Testing(Config):

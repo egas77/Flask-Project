@@ -113,8 +113,14 @@ main {
 }
 
 
-.edit-post-button, .edit-post-button:focus {
+.edit-post-button, .edit-post-button:focus,
+.delete-post-button, .delete-post-button:focus {
     border: none;
     outline: none;
     cursor: pointer;
+}
+
+
+.title-modal {
+    margin: 10px 30px 0;
 }

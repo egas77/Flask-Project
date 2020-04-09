@@ -22,11 +22,12 @@ login_manager = LoginManager(app)
 mail = Mail(app)
 api = Api(app)
 
-from app import models, user_api
+from app import models, user_api, post_api
 from app.blueprints.user import blueprint_user
 from app.blueprints.post import blueprint_post
 
 api.add_resource(user_api.UserResource, '/user-api', '/user-api/<int:user_id>')
+api.add_resource(post_api.PostResource, '/post-api', '/post-api/<int:post_id>')
 app.register_blueprint(blueprint_user)
 app.register_blueprint(blueprint_post)
 

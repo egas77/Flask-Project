@@ -1,12 +1,40 @@
 <div class="main-item shadow">
     <div class="content-main-item">
         <div style="float: right">
-            <span>{{ post.publication_date }}</span>
-            <a class="edit-post-button" href="{{ url_for('post.create_post', post_id=post.id) }}"><img src="{{ url_for('static', filename='img/buttons/edit_button.png') }}"
-                         alt="edit_button.png" style="width: 20px"></a>
+            <span style="margin-right: 10px">{{ post.publication_date }}</span>
+            {% if current_user.is_authenticated and current_user.importance in [1, 2] %}
+                <a class="edit-post-button"
+                   href="{{ url_for('post.create_post', post_id=post.id) }}"><img
+                        src="{{ url_for('static', filename='img/buttons/edit_button.png') }}"
+                        alt="edit_button.png" style="width: 20px"></a>
+                <button class="delete-post-button"
+                        id="{{ post.id }}"><img
+                        src="{{ url_for('static', filename='img/buttons/delete_button.png') }}"
+                        alt="edit_button.png" style="width: 20px">
+                </button>
+                <div class="modal-window {{ post.id }}" hidden>
+                    <div class="modal-content shadow">
+                        <div style="text-align: right">
+                            <button class="close-model">&#x2716;</button>
+                        </div>
+                        <div class="title-modal" style="text-align: center">
+                            <h3 class="modal-title" style="margin-top: 0">Удалить запись {{ post.title }}</h3>
+                        </div>
+                        <div class="form-container">
+                            <form>
+                                <div class="form-group">
+                                    <input class="form-field submit-field button-link red-button"
+                                           type="submit" value="Удалить">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <div>
-            <a href="{{ url_for('post.view_post', post_id=post.id) }}" style="color: inherit"><h2 class="title-post">{{ post.title }}</h2></a>
+            <a href="{{ url_for('post.view_post', post_id=post.id) }}" style="color: inherit"><h2
+                    class="title-post">{{ post.title }}</h2></a>
         </div>
         <div class="ck-content clearfix">
             {{ post.content|safe }}

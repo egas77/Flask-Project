@@ -33,7 +33,7 @@ def confirm_token(token, expiration=3600):
 def send_confirm_message(user):
     if not user.confirmed:
         token = generate_confirmation_token(user.email)
-        confirm_url = url_for('confirm_email', token=token, _external=True)
+        confirm_url = url_for('user.confirm_email', token=token, _external=True)
         subject = 'Пожалуйста подтвердите вашу почту'
         template = render_template('activate.html', confirm_url=confirm_url)
         with app.app_context():
