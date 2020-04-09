@@ -18,6 +18,11 @@ def get_session() -> db.Session:
     return db.session
 
 
+def send_mail(msg):
+    with app.app_context():
+        mail.send(msg)
+
+
 login_manager = LoginManager(app)
 mail = Mail(app)
 api = Api(app)

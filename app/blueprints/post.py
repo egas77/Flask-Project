@@ -1,13 +1,14 @@
 from flask import Blueprint, render_template, request, make_response, jsonify, redirect, url_for
 from flask_login import login_required
+from flask_mail import Message
 
-from app import get_session, api
-from app.models import Post
+from app import app, api, send_mail
+from app.models import Post, User
 from app.post_api import PostResource
 
-import datetime
-
 import requests
+
+from threading import Thread
 
 blueprint_post = Blueprint('post', __name__, template_folder='templates')
 
@@ -23,6 +24,7 @@ def create_post(post_id=None):
         else:
             response = requests.post(api.url_for(PostResource, _external=True),
                                      json=request.form.to_dict())
+            subscribe_new_post(response.json()['post_id'])
         if response:
             return redirect(url_for('index'))
         else:
@@ -50,3 +52,19 @@ def upload_image_creator():
         'fileName': image.filename,
         'url': url_image
     }))
+
+
+def subscribe_new_post(post_id):
+    users = User.get_query().filter(User.subscription).all()
+    subject = 'Вышла новая запись'
+    url = url_for('post.view_post', post_id=post_id, _external=True)
+    template = render_template('new_post_subscribe.html', url=url)
+    message = Message(
+        subject,
+        recipients=list(map(lambda user: user.email, users)),
+        html=template,
+        sender=app.config['MAIL_DEFAULT_SENDER']
+    )
+    thr = Thread(target=send_mail, args=[message])
+    thr.start()
+    return thr

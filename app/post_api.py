@@ -40,7 +40,8 @@ class PostResource(Resource):
         session.add(post)
         session.commit()
         return make_response(jsonify({
-            'status': 'OK'
+            'status': 'OK',
+            'post_id': post.id
         }), 200)
 
     def put(self, post_id):
