@@ -4,6 +4,20 @@ from app import get_session
 from app.models import Post
 
 import datetime
+import locale
+import pymorphy2
+
+locale.setlocale(locale.LC_ALL, 'ru')
+
+
+def get_date_string():
+    date = datetime.datetime.strftime(datetime.datetime.now(), '%d %B %H:%M').split()
+    date[0] = str(int(date[0]))
+    morph = pymorphy2.MorphAnalyzer()
+    mount = morph.parse(date[1])[0].inflect({'gent'}).word
+    date[1] = mount
+    date_string = f'{date[0]} {date[1]}, {date[2]}'
+    return date_string
 
 
 class PostResource(Resource):
@@ -21,6 +35,7 @@ class PostResource(Resource):
         for key, item in args.items():
             post.__setattr__(key, item)
         post.publication_date = datetime.datetime.now()
+        post.publication_date_string = get_date_string()
         session = get_session()
         session.add(post)
         session.commit()

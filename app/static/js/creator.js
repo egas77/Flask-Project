@@ -17,7 +17,7 @@ ClassicEditor
                 'undo',
                 'redo',
                 'imageUpload',
-                'CKFinder',
+                // 'CKFinder',
                 'mediaEmbed',
                 'blockQuote',
                 'insertTable',

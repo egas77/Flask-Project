@@ -1,7 +1,7 @@
 <div class="main-item shadow">
     <div class="content-main-item">
         <div style="float: right">
-            <span style="margin-right: 10px">{{ post.publication_date }}</span>
+            <span style="margin-right: 10px">{{ post.publication_date_string }}</span>
             {% if current_user.is_authenticated and current_user.importance in [1, 2] %}
                 <a class="edit-post-button"
                    href="{{ url_for('post.create_post', post_id=post.id) }}"><img

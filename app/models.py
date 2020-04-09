@@ -40,6 +40,7 @@ class Post(db.Model, SerializerMixin):
     title = db.Column(db.String)
     content = db.Column(db.Text)
     publication_date = db.Column(db.DateTime, default=datetime.datetime.now())
+    publication_date_string = db.Column(db.String)
 
     def __repr__(self):
         return 'Post {} {}'.format(self.title, self.id)

@@ -43,7 +43,7 @@ def view_post(post_id):
 @login_required
 def upload_image_creator():
     image = request.files.get('upload')
-    url_image = 'static/img/' + image.filename
+    url_image = '/static/img/' + image.filename
     image.save('app/' + url_image)
     return make_response(jsonify({
         'uploaded': 1,
