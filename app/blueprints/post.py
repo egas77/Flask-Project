@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request, make_response, jsonify, redirect, url_for
-from flask_login import login_required
+from flask import Blueprint, render_template, request, make_response, jsonify, redirect, url_for, \
+    abort, flash
+from flask_login import login_required, current_user
 from flask_mail import Message
 
 from app import app, api, send_mail
@@ -17,6 +18,9 @@ blueprint_post = Blueprint('post', __name__, template_folder='templates')
 @blueprint_post.route('/edit-post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def create_post(post_id=None):
+    if current_user.importance == 0:
+        flash('У вас нет доступа к данной странице', 'error')
+        return redirect(url_for('index'))
     if request.method == 'POST':
         if post_id:
             response = requests.put(api.url_for(PostResource, post_id=post_id, _external=True),
@@ -38,6 +42,8 @@ def create_post(post_id=None):
 @blueprint_post.route('/post/<int:post_id>')
 def view_post(post_id):
     post = Post.get_query().get(post_id)
+    if not post:
+        abort(404)
     return render_template('post.html', post=post)
 
 

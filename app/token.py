@@ -3,6 +3,7 @@ from flask_mail import Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
 from app import app, send_mail
+import smtplib
 
 
 def generate_confirmation_token(email):
@@ -42,7 +43,14 @@ def send_confirm_message(user):
             html=template,
             sender=app.config['MAIL_DEFAULT_SENDER']
         )
-        send_mail(confirm_message)
+        try:
+            send_mail(confirm_message)
+        except smtplib.SMTPAuthenticationError:
+            return {
+                'status': False,
+                'message': 'Не удалось отправить сообщение'
+            }
+
         return {
             'status': True,
             'message': 'На вашу почту отправлена инструкция для активации аккаунта'

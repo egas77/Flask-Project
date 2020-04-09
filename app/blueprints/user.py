@@ -111,17 +111,14 @@ def login():
         return render_template('login.html', authorization_form=authorization_form, title=title)
 
 
-@blueprint_user.route('/user/<int:user_id>', methods=['GET', 'POST'])
+@blueprint_user.route('/user/<int:user_id>')
 @login_required
 def user_page(user_id):
     if user_id != int(current_user.get_id()) and current_user.importance != 2:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
-    user = User.get_query().get(user_id)
-    if user:
-        if request.method == 'GET':
-            return render_template('user.html', user=user)
-    abort(401)
+    user = User.get_query().get_or_404(user_id)
+    return render_template('user.html', user=user)
 
 
 @blueprint_user.route('/activate-email')
