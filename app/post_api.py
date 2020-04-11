@@ -4,10 +4,10 @@ from app import get_session
 from app.models import Post
 
 import datetime
-import locale
+# import locale
 import pymorphy2
 
-locale.setlocale(locale.LC_ALL, 'ru')
+# locale.setlocale(locale.LC_ALL, 'ru')
 
 
 def get_date_string():
