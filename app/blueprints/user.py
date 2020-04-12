@@ -114,7 +114,7 @@ def login():
 @blueprint_user.route('/user/<int:user_id>')
 @login_required
 def user_page(user_id):
-    if user_id != int(current_user.get_id()) and current_user.importance != 2:
+    if user_id != int(current_user.get_id()) and current_user.importance not in [1, 2]:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
     user = User.get_query().get_or_404(user_id)

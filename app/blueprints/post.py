@@ -31,9 +31,10 @@ def create_post(post_id=None):
         else:
             json['author_id'] = current_user.get_id()
             response = requests.post(api.url_for(PostResource, _external=True), json=json)
-            subscribe_new_post(response.json()['post_id'])
+            post_id = response.json()['post_id']
+            subscribe_new_post(post_id)
         if response:
-            return redirect(url_for('index'))
+            return redirect(url_for('post.view_post', post_id=post_id))
         else:
             return make_response(jsonify(response.json()), 400)
     if post_id:
@@ -42,7 +43,7 @@ def create_post(post_id=None):
             return render_template('new_post.html', post=post)
         else:
             flash('Вы не можете редактировать этот пост', 'error')
-            return redirect(url_for('index'))
+            return redirect(url_for('post.view_post', post_id=post_id))
     return render_template('new_post.html')
 
 
@@ -55,10 +56,15 @@ def delete_post(post_id):
         }), 400)
     post = Post.get_query().get_or_404(post_id)
     if current_user.importance == 2 or post.author.get_id() == current_user.get_id():
+        session = get_session()
+        comments = post.comments.all()
         response = requests.delete(api.url_for(PostResource, post_id=post_id, _external=True))
         if not response:
             flash(response.json()['message'], 'error')
             return make_response(jsonify(response.json()), response.status_code)
+        for comment in comments:
+            session.delete(comment)
+        session.commit()
         return make_response(jsonify({
             'status': 'OK'
         }), 200)
@@ -74,7 +80,7 @@ def view_post(post_id, comment_page=1):
     post = Post.get_query().get_or_404(post_id)
     comments = Comment.get_query().filter(Comment.post_id == post_id).order_by(
         desc(Comment.publication_date)).paginate(comment_page,
-                                                 app.config.get('COMMENTS_ON_PAGE', 10), False)
+                                                 app.config.get('COMMENTS_ON_PAGE', 10), True)
     return render_template('post.html', post=post, comments=comments)
 
 
@@ -92,6 +98,17 @@ def create_comment():
     return make_response(jsonify({
         'status': 'OK',
     }), 200)
+
+
+@blueprint_post.route('/delete-comment/<int:comment_id>/<int:post_id>')
+def delete_comment(comment_id, post_id):
+    if current_user.is_authenticated and current_user.importance in [1, 2]:
+        comment = Comment.get_query().get(comment_id)
+        if comment:
+            session = get_session()
+            session.delete(comment)
+            session.commit()
+    return redirect(url_for('post.view_post', post_id=post_id))
 
 
 @blueprint_post.route('/upload-image', methods=['POST'])

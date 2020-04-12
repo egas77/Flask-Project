@@ -57,9 +57,14 @@
                            href="{{ url_for("user.user_page", user_id=comment.author.id) }}">
                             {{ comment.author.nickname }}
                         </a>
-                        <span class="create-date">
-                        {{ comment.publication_date_string }}
-                    </span>
+                        <span class="create-date">{{ comment.publication_date_string }}</span>
+                        {% if current_user.is_authenticated and current_user.importance in [1, 2] %}
+                            <a class="delete-comment-button" style="float: right"
+                               href="{{ url_for('post.delete_comment', comment_id=comment.id, post_id=post.id) }}">
+                                <img src="{{ url_for('static', filename='img/buttons/delete_button.png') }}"
+                                     alt="delete_button.png" style="width: 20px">
+                            </a>
+                        {% endif %}
                         <div class="content-comment">
                             {{ comment.content|safe }}
                         </div>
@@ -99,4 +104,5 @@
 {% block script %}
     <script src="{{ url_for('static', filename='ckeditor5_comment/build/ckeditor.js') }}"></script>
     <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/delete_post.js') }}"></script>
 {% endblock %}
