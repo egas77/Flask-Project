@@ -1,8 +1,5 @@
 main {
     min-height: 100%;
-    float: left;
-    width: 75%;
-    box-sizing: border-box;
 
 }
 
@@ -108,7 +105,6 @@ main {
 
 
 .title-post {
-    display: inline-block;
     margin: auto;
 }
 
@@ -118,6 +114,7 @@ main {
     border: none;
     outline: none;
     cursor: pointer;
+    background: rgba(0, 0, 0, 0);
 }
 
 

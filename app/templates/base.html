@@ -16,9 +16,6 @@
     <div class="content-header">
         <nav>
             <a href="{{ url_for('index') }}" class="nav-item">Главная</a>
-            <a href="#" class="nav-item">Последние новости</a>
-            <a href="#" class="nav-item">Пункт 4</a>
-            <a href="#" class="nav-item">Алаляй</a>
         </nav>
         <div class="user-block">
             {% if current_user.is_authenticated %}
@@ -36,38 +33,17 @@
 </header>
 
 <div class="main-block">
-    <div class="h-wrapper" style="max-width: 1500px">
-        <div class="clearfix">
+    <div class="h-wrapper" style="max-width: 1300px">
             <main>
                 {% block main %}
 
                 {% endblock %}
             </main>
-            <aside>
-                <div class="aside-item aside1 shadow">
-                    <div class="title-aside">
-                        <span>Sidebar 1</span>
-                    </div>
-                    <div class="content-aside">
-                        <span>Content sidebar1</span>
-                    </div>
-                </div>
-                <div class=" aside-item aside2 shadow">
-                    <div class="title-aside">
-                        <span>Sidebar 2</span>
-                    </div>
-                    <div class="content-aside">
-                        <span>Content sidebar2</span>
-                    </div>
-                </div>
-            </aside>
-        </div>
     </div>
 </div>
 
 <footer>
     <div class="content-footer">
-
     </div>
 </footer>
 

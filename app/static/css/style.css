@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import "header.css";
 @import "main.css";
-@import "aside.css";
 @import "footer.css";
 @import "flash.css";
 @import "user.css";
@@ -107,8 +106,6 @@ body {
     color: #282536;
     font-size: 1.15em;
 }
-
-
 
 
 .g-recaptcha div {
