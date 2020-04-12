@@ -39,10 +39,10 @@
                 {% for comment in comments.items %}
                     <div class="comment clearfix">
                         <div class="comment-image">
-                            {% if post.author.image_file %}
+                            {% if comment.author.image_file %}
                                 <a style="color: #CA6D75"
                                    href="{{ url_for("user.user_page", user_id=comment.author.id) }}">
-                                    <img src="{{ url_for('static', filename=post.author.image_file) }}"
+                                    <img src="{{ url_for('static', filename=comment.author.image_file) }}"
                                          alt="">
                                 </a>
                             {% else %}
