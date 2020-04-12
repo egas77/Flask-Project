@@ -17,6 +17,7 @@ class Config(object):
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
 
     POSTS_ON_PAGE = 5
+    COMMENTS_ON_PAGE = 10
 
 
 class Testing(Config):

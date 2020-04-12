@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, request, make_response, jsonify, redirect, url_for, \
-    abort, flash
+    flash
 from flask_login import login_required, current_user
 from flask_mail import Message
+from sqlalchemy import desc
 
 from app import app, api, send_mail, get_session
 from app.models import Post, User, Comment
@@ -68,10 +69,12 @@ def delete_post(post_id):
 
 
 @blueprint_post.route('/post/<int:post_id>')
-def view_post(post_id):
+@blueprint_post.route('/post/<int:post_id>/<int:comment_page>')
+def view_post(post_id, comment_page=1):
     post = Post.get_query().get_or_404(post_id)
-    comments = Comment.get_query().filter(Comment.post_id == post_id).all()
-    print(comments)
+    comments = Comment.get_query().filter(Comment.post_id == post_id).order_by(
+        desc(Comment.publication_date)).paginate(comment_page,
+                                                 app.config.get('COMMENTS_ON_PAGE', 10), False)
     return render_template('post.html', post=post, comments=comments)
 
 
@@ -82,7 +85,7 @@ def create_comment():
     content = request.form.get('content')
     comment = Comment(author_id=user_id, post_id=post_id, content=content)
     comment.publication_date = datetime.datetime.now()
-    comment.publication_date_string = comment.publication_date.strftime('%d.%m.%Y')
+    comment.publication_date_string = comment.publication_date.strftime('%d.%m.%Y %H:%M')
     session = get_session()
     session.add(comment)
     session.commit()

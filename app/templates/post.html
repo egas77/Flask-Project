@@ -6,19 +6,93 @@
     <div class="main-item shadow">
         <div class="content-main-item">
             <h2 style="margin-top: 0">Оставить комментарий</h2>
-            <div class="comment-container">
-                <form id="comment-form">
-                    <input type="hidden" value="{{ current_user.get_id() }}" name="user-id" id="user-id">
-                    <input type="hidden" value="{{ post.id }}" name="post-id" id="post-id">
-                    <div class="form-group">
-                        <div id="editor" class="comment-field"></div>
-                    </div>
-                    <div style="text-align: right">
-                        <input type="submit" class="form-field submit-field button-link red-button">
-                    </div>
-                </form>
-            </div>
+            {% if not current_user.is_authenticated %}
+                <div style="text-align: center">
+                    <h3 style="color: #827c82">Авторизуйтесь!</h3>
+                </div>
+            {% elif not  current_user.confirmed %}
+                <div style="text-align: center">
+                    <h3 style="color: #827c82">Подтвердите ваш аккаунт в личном кабинете</h3>
+                </div>
+            {% else %}
+                <div class="comment-container">
+                    <form id="comment-form">
+                        <input type="hidden" value="{{ current_user.get_id() }}" name="user-id"
+                               id="user-id">
+                        <input type="hidden" value="{{ post.id }}" name="post-id" id="post-id">
+                        <div class="form-group">
+                            <div id="editor" class="comment-field"></div>
+                        </div>
+                        <div style="text-align: right">
+                            <input type="submit"
+                                   class="form-field submit-field button-link red-button">
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
         </div>
+    </div>
+    <div class="main-item shadow" id="comment-block">
+        <div class="content-main-item">
+            <h2 style="margin-top: 0">Комментарии</h2>
+            {% if comments.items %}
+                {% for comment in comments.items %}
+                    <div class="comment clearfix">
+                        <div class="comment-image">
+                            {% if post.author.image_file %}
+                                <a style="color: #CA6D75"
+                                   href="{{ url_for("user.user_page", user_id=comment.author.id) }}">
+                                    <img src="{{ url_for('static', filename=post.author.image_file) }}"
+                                         alt="">
+                                </a>
+                            {% else %}
+                                <a style="color: #CA6D75"
+                                   href="{{ url_for("user.user_page", user_id=comment.author.id) }}">
+                                    <img src="{{ url_for('static', filename='img/users_avatar/default-user-avatar.png') }}"
+                                         alt="">
+                                </a>
+                            {% endif %}
+                        </div>
+                        <a style="color: #CA6D75; margin-right: 15px"
+                           href="{{ url_for("user.user_page", user_id=comment.author.id) }}">
+                            {{ comment.author.nickname }}
+                        </a>
+                        <span class="create-date">
+                        {{ comment.publication_date_string }}
+                    </span>
+                        <div class="content-comment">
+                            {{ comment.content|safe }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center">
+                    <h3 style="color: #827c82">Оставь комметрарий первым!</h3>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="paginate" style="text-align: right">
+        {% if comments.has_prev %}
+            <a class="page-link"
+               href="{{ url_for("post.view_post", post_id=post.id, comment_page=comments.prev_num) }}"><</a>
+        {% endif %}
+        {% for page in comments.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+            {% if page %}
+                {% if page != comments.page %}
+                    <a class="page-link"
+                       href="{{ url_for('post.view_post', post_id=post.id, comment_page=page) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {% endfor %}
+        {% if comments.has_next %}
+            <a class="page-link"
+               href="{{ url_for("post.view_post", post_id=post.id, comment_page=comments.next_num) }}">></a>
+        {% endif %}
     </div>
 {% endblock %}
 

@@ -1,0 +1,26 @@
+.comment {
+    border-bottom: 1px solid rgba(130, 124, 130, 0.4);
+    margin-bottom: 15px;
+    padding-left: 30px;
+}
+
+
+.comment:last-of-type {
+    border-bottom: none;
+}
+
+.comment-image img {
+    float: left;
+    max-width: 40px;
+    margin-right: 15px;
+}
+
+
+.content-comment {
+    margin-left: 60px;
+}
+
+
+.create-date {
+    color: #827c82;
+}
