@@ -3,4 +3,26 @@
 
 {% block main %}
     {% include 'post_template.html' %}
+    <div class="main-item shadow">
+        <div class="content-main-item">
+            <h2 style="margin-top: 0">Оставить комментарий</h2>
+            <div class="comment-container">
+                <form id="comment-form">
+                    <input type="hidden" value="{{ current_user.get_id() }}" name="user-id" id="user-id">
+                    <input type="hidden" value="{{ post.id }}" name="post-id" id="post-id">
+                    <div class="form-group">
+                        <div id="editor" class="comment-field"></div>
+                    </div>
+                    <div style="text-align: right">
+                        <input type="submit" class="form-field submit-field button-link red-button">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='ckeditor5_comment/build/ckeditor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
 {% endblock %}

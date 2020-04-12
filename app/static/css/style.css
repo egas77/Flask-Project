@@ -123,3 +123,14 @@ body {
     clear: both;
     height: 0;
 }
+
+
+.comment-container {
+    margin-top: 40px;
+}
+
+
+.comment-field {
+    border: 1px solid black;
+    background: #B4B6CE;
+}

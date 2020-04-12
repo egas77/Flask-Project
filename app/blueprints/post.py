@@ -3,11 +3,12 @@ from flask import Blueprint, render_template, request, make_response, jsonify, r
 from flask_login import login_required, current_user
 from flask_mail import Message
 
-from app import app, api, send_mail
-from app.models import Post, User
+from app import app, api, send_mail, get_session
+from app.models import Post, User, Comment
 from app.post_api import PostResource
 
 import requests
+import datetime
 
 from threading import Thread
 
@@ -69,7 +70,25 @@ def delete_post(post_id):
 @blueprint_post.route('/post/<int:post_id>')
 def view_post(post_id):
     post = Post.get_query().get_or_404(post_id)
-    return render_template('post.html', post=post)
+    comments = Comment.get_query().filter(Comment.post_id == post_id).all()
+    print(comments)
+    return render_template('post.html', post=post, comments=comments)
+
+
+@blueprint_post.route('/create_comment', methods=['POST'])
+def create_comment():
+    user_id = request.form.get('user_id')
+    post_id = request.form.get('post_id')
+    content = request.form.get('content')
+    comment = Comment(author_id=user_id, post_id=post_id, content=content)
+    comment.publication_date = datetime.datetime.now()
+    comment.publication_date_string = comment.publication_date.strftime('%d.%m.%Y')
+    session = get_session()
+    session.add(comment)
+    session.commit()
+    return make_response(jsonify({
+        'status': 'OK',
+    }), 200)
 
 
 @blueprint_post.route('/upload-image', methods=['POST'])

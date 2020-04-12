@@ -22,6 +22,7 @@ class User(db.Model, UserMixin, SerializerMixin):
     image_file = db.Column(db.String)
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {} {}>'.format(self.login, self.id)
@@ -45,9 +46,27 @@ class Post(db.Model, SerializerMixin):
     publication_date_string = db.Column(db.String)
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
+
     def __repr__(self):
-        return 'Post {} {}'.format(self.title, self.id)
+        return '<Post {} {}>'.format(self.title, self.id)
 
     @staticmethod
     def get_query() -> BaseQuery:
         return Post.query
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.Text)
+    publication_date = db.Column(db.DateTime, default=datetime.datetime.now())
+    publication_date_string = db.Column(db.String)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+
+    def __repr__(self):
+        return '<Comment {} {}>'.format(self.post, self.author)
+
+    @staticmethod
+    def get_query() -> BaseQuery:
+        return Comment.query
