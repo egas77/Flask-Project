@@ -10,6 +10,7 @@ from app.token import send_confirm_message, confirm_token, send_recovery_passwor
 import requests
 import base64
 import datetime
+import os
 
 blueprint_user = Blueprint('user', __name__, template_folder='templates')
 
@@ -141,6 +142,9 @@ def subscribe():
 @blueprint_user.route('/user-image', methods=['POST'])
 @login_required
 def user_image():
+    current_image = current_user.image_file
+    if current_image:
+        os.remove(f'app/static/{current_image}')
     data_image = request.form.get('image').split(',', maxsplit=1)
     format_img = data_image[0].split('/')[1].split(';')[0]
     base_64_srt = data_image[1]
