@@ -60,3 +60,27 @@ def send_confirm_message(user):
             'status': False,
             'message': 'Аккаунт уже подтвержден'
         }
+
+
+def send_recovery_password(user):
+    token = generate_confirmation_token(user.email)
+    recovery_url = url_for('user.recovery_password_last', token=token, _external=True)
+    subject = 'Восстановление пароля'
+    template = render_template('recovery_password_message.html', recovery_url=recovery_url)
+    confirm_message = Message(
+        subject,
+        recipients=[user.email],
+        html=template,
+        sender=app.config['MAIL_DEFAULT_SENDER']
+    )
+    try:
+        send_mail(confirm_message)
+    except smtplib.SMTPAuthenticationError:
+        return {
+            'status': False,
+            'message': 'Не удалось отправить сообщение'
+        }
+    return {
+        'status': True,
+        'message': 'На вашу почту отправлена инструкция для восстановления пароля'
+    }

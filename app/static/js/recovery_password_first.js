@@ -1,29 +1,26 @@
-console.log('Complete connect script registration');
 $(document).ready(function () {
-    let registrationForm = $('.registration-form');
+    let recoveryPasswordForm = $('#recovery-password-form');
     let submitButton = $('#submit');
-    console.log(submitButton);
-    registrationForm.submit(function (event) {
+    recoveryPasswordForm.submit(function (event) {
+        event.preventDefault();
         submitButton.addClass('disable-button');
         submitButton.attr('disabled', true);
-        event.preventDefault();
         $.ajax({
-            type: 'POST',
-            url: '/registration',
-            data: registrationForm.serialize()
+            'url': '/recovery-password-first',
+            'type': 'POST',
+            'data': recoveryPasswordForm.serialize()
+        }).done(function (data) {
+            if (data.redirect) {
+                window.location.href = data.redirect_url;
+            }
         }).fail(function (error) {
             for (let key in error.responseJSON.message) {
                 let message = key + ': ' + error.responseJSON.message[key];
                 createFlash('error', message);
             }
-        }).done(function (data) {
-            if (data.redirect) {
-                window.location.href = data.redirect_url;
-            }
         }).always(function () {
             submitButton.removeClass('disable-button');
             submitButton.attr('disabled', false);
-            grecaptcha.reset();
         });
     });
 });

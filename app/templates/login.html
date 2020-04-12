@@ -18,6 +18,9 @@
             {{ authorization_form.submit(class='form-field submit-field button-link green-button') }}
         </div>
     </form>
+    <div style="text-align: center">
+        <a href="{{ url_for('user.recovery_password_first') }}" style="color: #282536">Забыли пароль?</a>
+    </div>
 {% endblock %}
 
 

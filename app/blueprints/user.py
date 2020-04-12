@@ -3,9 +3,9 @@ from flask import Blueprint, render_template, request, flash, make_response, jso
 from flask_login import login_required, login_user, logout_user, current_user
 from app import login_manager, api, get_session
 from app.models import User
-from app.forms import RegisterForm, AuthorizationForm
+from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast
 from app.user_api import UserResource
-from app.token import send_confirm_message, confirm_token
+from app.token import send_confirm_message, confirm_token, send_recovery_password
 
 import requests
 import base64
@@ -42,17 +42,7 @@ def registration():
         else:
             return make_response(jsonify(response.json()), response.status_code)
     elif request.method == 'POST' and not register_form.validate_on_submit():
-        errors = {}
-        for error in register_form.login.errors:
-            errors['login'] = error
-        for error in register_form.email.errors:
-            errors['email'] = error
-        for error in register_form.password.errors:
-            errors['password'] = error
-        for error in register_form.repeat_password.errors:
-            errors['repeat_password'] = error
-        if errors:
-            return make_response(jsonify({'message': errors}), 400)
+        return make_response(jsonify({'message': register_form.errors}), 400)
     elif request.method == 'GET':
         return render_template('registration.html', register_form=register_form, title=title)
 
@@ -195,3 +185,45 @@ def edit_user():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@blueprint_user.route('/recovery-password-first', methods=['GET', 'POST'])
+def recovery_password_first():
+    recovery_form = RecoveryPasswordFirst()
+    if recovery_form.validate_on_submit():
+        email = request.form.get('email')
+        user = User.get_query().filter(User.email == email).first()
+        if not user:
+            return make_response(jsonify({
+                'message': {'Ошибка': 'Пользователь с такой почтой не зарегистрирован'}
+            }), 400)
+        result = send_recovery_password(user)
+        flash(result['message'], 'success')
+        return make_response(jsonify({
+            'redirect': True,
+            'redirect_url': url_for('index')
+        }), 200)
+    return render_template('recovery_password_first.html', recovery_form=recovery_form,
+                           title='Восстановить пароль')
+
+
+@blueprint_user.route('/recovery-password-last/<token>', methods=['GET', 'POST'])
+def recovery_password_last(token):
+    email = confirm_token(token)
+    if not email:
+        return redirect(url_for('index'))
+    user = User.get_query().filter(User.email == email).first()
+    recovery_form = RecoveryPasswordLast()
+    if recovery_form.validate_on_submit():
+        response = requests.put(api.url_for(UserResource, user_id=user.id, _external=True),
+                                json=request.form.to_dict())
+        if response:
+            flash('Ваш пароль успешно изменен', 'success')
+            return make_response(jsonify({
+                'redirect': True,
+                'redirect_url': url_for('index')
+            }), 200)
+        else:
+            return make_response(jsonify(response.json()), 400)
+    return render_template('recovery_password_last.html', recovery_form=recovery_form,
+                           title='Новый пароль', token=token)

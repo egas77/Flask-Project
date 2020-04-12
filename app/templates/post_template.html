@@ -1,7 +1,10 @@
 <div class="main-item shadow">
     <div class="content-main-item">
         <div style="float: right">
-            <span style="margin-right: 10px">{{ post.author.nickname }} | {{ post.publication_date_string }}</span>
+            <span style="margin-right: 10px"><a
+                    style="color: inherit"
+                    href="{{ url_for('user.user_page', user_id=post.author.id) }}">{{ post.author.nickname }}</a>
+                | {{ post.publication_date_string }}</span>
             {% if current_user.is_authenticated and
                     (current_user.importance == 2 or post.author.get_id() == current_user.get_id()) %}
                 <a class="edit-post-button"
@@ -19,8 +22,8 @@
                             <button class="close-model">&#x2716;</button>
                         </div>
                         <div class="title-modal" style="text-align: center">
-                            <h3 class="modal-title" style="margin-top: 0">Удалить
-                                запись {{ post.title }}</h3>
+                            <h3 class="modal-title" style="margin-top: 0">Удалить запись
+                                "{{ post.title }}"</h3>
                         </div>
                         <div class="form-container">
                             <form>

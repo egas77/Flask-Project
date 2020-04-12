@@ -22,7 +22,7 @@ class RegisterForm(FlaskForm):
     repeat_password = PasswordField('Повторите пароль',
                                     validators=[DataRequired(
                                         message=required_message.format('повтором пароля'))])
-    # recaptcha_field = RecaptchaField()
+    recaptcha_field = RecaptchaField()
     submit = SubmitField('Регистрация')
 
 
@@ -33,3 +33,20 @@ class AuthorizationForm(FlaskForm):
                              validators=[DataRequired(message=required_message.format('паролем'))])
     remember = BooleanField('Запомнить')
     submit = SubmitField('Войти')
+
+
+class RecoveryPasswordFirst(FlaskForm):
+    email = EmailField('Электронная почта',
+                       validators=[
+                           DataRequired(message=required_message.format('электронной почтой')),
+                           Email(message=email_message)])
+    submit = SubmitField('Восстановить')
+
+
+class RecoveryPasswordLast(FlaskForm):
+    password = PasswordField('Пароль',
+                             validators=[DataRequired(message=required_message.format('паролем'))])
+    repeat_password = PasswordField('Повторите пароль',
+                                    validators=[DataRequired(
+                                        message=required_message.format('повтором пароля'))])
+    submit = SubmitField('Изменить')

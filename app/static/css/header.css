@@ -15,7 +15,6 @@ nav {
 }
 
 
-
 .content-header {
     display: flex;
     flex-wrap: wrap;
@@ -25,6 +24,7 @@ nav {
 }
 
 .nav-item {
+    font-size: 1.2em;
     margin-right: 20px;
 }
 
