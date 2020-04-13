@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, make_response, jsonify, url_for, \
     redirect, abort
 from flask_login import login_required, login_user, logout_user, current_user
-from app import login_manager, api, get_session
+from app import login_manager, api, get_session, app
 from app.models import User
 from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast
 from app.user_api import UserResource
@@ -247,3 +247,13 @@ def recovery_password_last(token):
             return make_response(jsonify(response.json()), 400)
     return render_template('recovery_password_last.html', recovery_form=recovery_form,
                            title='Новый пароль', token=token)
+
+
+@blueprint_user.route('/list_user')
+@blueprint_user.route('/list_user/<int:page>')
+@login_required
+def list_user(page=1):
+    if current_user.importance != 2:
+        abort(401)
+    users = User.get_query().paginate(page, app.config.get('USERS_ON_PAGE', 10))
+    return render_template('list_users.html', users=users)

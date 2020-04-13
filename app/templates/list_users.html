@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div class="main-item shadow">
+        <div class="content-main-item">
+            <h2>Пользователи</h2>
+            <table class="user-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Логин</th>
+                    <th>Почта</th>
+                    <th>Подтвержден</th>
+                    <th>Роль</th>
+                    <th>Дата регистрации</th>
+                    <th>Подписка</th>
+                </tr>
+                {% for user in users.items %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>
+                            <a href="{{ url_for('user.user_page', user_id=user.id) }}">{{ user.login }}</a>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        {% if user.confirmed %}
+                            <td>Да</td>
+                        {% else %}
+                            <td>Нет</td>
+                        {% endif %}
+                        {% if user.importance == 0 %}
+                            <td>Пользователь</td>
+                        {% elif user.importance == 1 %}
+                            <td>Модератор</td>
+                        {% elif user.importance == 2 %}
+                            <td>Администратор</td>
+                        {% endif %}
+                        <td>{{ user.registration_date }}</td>
+                        {% if user.subscription %}
+                            <td>Да</td>
+                        {% else %}
+                            <td>Нет</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="paginate" style="text-align: right">
+        {% if users.has_prev %}
+            <a class="page-link"
+               href="{{ url_for("user.list_user", page=users.prev_num) }}"><</a>
+        {% endif %}
+        {% for page in users.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+            {% if page %}
+                {% if page != users.page %}
+                    <a class="page-link"
+                       href="{{ url_for("user.list_user", page=page) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {% endfor %}
+        {% if users.has_next %}
+            <a class="page-link"
+               href="{{ url_for("user.list_user", page=users.next_num) }}">></a>
+        {% endif %}
+    </div>
+{% endblock %}
