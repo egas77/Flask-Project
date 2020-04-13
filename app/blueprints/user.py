@@ -103,7 +103,7 @@ def login():
 def user_page(user_id, post_page=1):
     if user_id != int(current_user.get_id()) and current_user.importance not in [1, 2]:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     password_form = PasswordChange()
     user = User.get_query().get_or_404(user_id)
     if user.importance in [1, 2]:
@@ -237,7 +237,7 @@ def recovery_password_first():
 def recovery_password_last(token):
     email = confirm_token(token)
     if not email:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     user = User.get_query().filter(User.email == email).first()
     recovery_form = RecoveryPasswordLast()
     if recovery_form.validate_on_submit():
