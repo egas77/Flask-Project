@@ -1,11 +1,12 @@
 from flask import render_template, flash, redirect, url_for, request
-from flask_login import current_user
+from flask_login import current_user, login_required
+from flask_mail import Message
 from sqlalchemy import desc
 
 import os
 import flask_ngrok
 
-from app import app
+from app import app, send_mail
 from app.models import Post
 
 
@@ -19,12 +20,21 @@ def index(page=1):
 
 
 @app.route('/feedback', methods=['GET', 'POST'])
+@login_required
 def feedback():
     if not current_user.is_authenticated:
         flash('Авторизуйтесь для использования обратной связи', 'warning')
         return redirect(url_for('index'))
     if request.method == 'POST':
-        pass
+        content = request.form.get('content', None)
+        template = render_template('feedback_template.html', content=content)
+        message = Message(
+            subject=f'Обратная связь блог от {current_user.login}',
+            sender=app.config.get('MAIL_DEFAULT_SENDER'),
+            html=template,
+            recipients=[app.config.get('FEEDBACK_MAIL')]
+        )
+        send_mail(message)
     return render_template('feedback.html')
 
 

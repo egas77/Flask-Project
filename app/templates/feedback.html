@@ -6,6 +6,30 @@
     <div class="main-item shadow">
         <div class="content-main-item">
             <h2>Обрраная связь</h2>
+            {% if current_user.is_authenticated %}
+                {% if current_user.confirmed %}
+                    <form id="feedback-form">
+                        <div class="form-group">
+                            <div id="editor" class="feedback-field"
+                                 style="background-color: #B4B6CE"></div>
+                        </div>
+                        <div style="text-align: right">
+                            <input type="submit"
+                                   class="form-field submit-field button-link red-button">
+                        </div>
+                    </form>
+                {% else %}
+
+                {% endif %}
+            {% else %}
+
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+
+
+{% block script %}
+    <script src="{{ url_for('static', filename='ckeditor5_comment/build/ckeditor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/feedback.js') }}"></script>
 {% endblock %}

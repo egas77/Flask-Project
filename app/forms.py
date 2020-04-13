@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms.fields import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email, StopValidation
+from wtforms.validators import DataRequired, Email, StopValidation, Length
 
 required_message = 'Поле c {} обязательно для заполнения'
 email_message = 'Недействительный адрес электронной почты'
@@ -60,7 +60,8 @@ class RegisterForm(FlaskForm):
     nickname = StringField('Никнейм',
                            validators=[DataRequired(message=required_message.format('никнеймом'))])
     login = StringField('Логин',
-                        validators=[DataRequired(message=required_message.format('логином'))])
+                        validators=[DataRequired(message=required_message.format('логином')),
+                                    Length(5, 32, message='Логин должен быть от 5 до 32 символов')])
     email = EmailField('Электронная почта',
                        validators=[
                            DataRequired(message=required_message.format('электронной почтой')),
