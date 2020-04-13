@@ -52,26 +52,21 @@
                                         </div>
                                         <div class="form-container">
                                             <form class="password-form">
+                                                {{ password_form.hidden_tag() }}
                                                 <div class="form-group">
-                                                    <input type="password" name="old_password"
-                                                           id="old_password"
-                                                           placeholder="Старый пароль"
-                                                           class="form-field string-field"
-                                                           required>
+                                                    {{ password_form.old_password(
+                                                    placeholder=password_form.old_password.label.text,
+                                                            class="form-field string-field") }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" name="password"
-                                                           id="password"
-                                                           placeholder="Новый пароль"
-                                                           class="form-field string-field"
-                                                           required>
+                                                    {{ password_form.password(
+                                                    placeholder=password_form.password.label.text,
+                                                            class="form-field string-field") }}
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="password" name="repeat_password"
-                                                           id="repeat_password"
-                                                           placeholder="Новый пароль"
-                                                           class="form-field string-field"
-                                                           required>
+                                                    {{ password_form.repeat_password(
+                                                    placeholder=password_form.repeat_password.label.text,
+                                                            class="form-field string-field") }}
                                                 </div>
                                                 <div class="form-group">
                                                     <input class="form-field submit-field button-link green-button"
@@ -247,7 +242,8 @@
                 {% endif %}
             {% endfor %}
             {% if posts.has_next %}
-                <a class="page-link" href="{{ url_for('user.user_page', user_id=user.id, post_page=posts.next_num) }}">></a>
+                <a class="page-link"
+                   href="{{ url_for('user.user_page', user_id=user.id, post_page=posts.next_num) }}">></a>
             {% endif %}
         </div>
     {% endif %}

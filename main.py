@@ -1,4 +1,5 @@
-from flask import render_template, flash
+from flask import render_template, flash, redirect, url_for, request
+from flask_login import current_user
 from sqlalchemy import desc
 
 import os
@@ -15,6 +16,16 @@ def index(page=1):
     posts = Post.get_query().order_by(desc(Post.publication_date)
                                       ).paginate(page, app.config.get('POSTS_ON_PAGE', 5), True)
     return render_template('index.html', posts=posts)
+
+
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback():
+    if not current_user.is_authenticated:
+        flash('Авторизуйтесь для использования обратной связи', 'warning')
+        return redirect(url_for('index'))
+    if request.method == 'POST':
+        pass
+    return render_template('feedback.html')
 
 
 @app.errorhandler(404)

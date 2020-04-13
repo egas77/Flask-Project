@@ -4,7 +4,7 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy import desc
 from app import login_manager, api, get_session, app
 from app.models import User, Post
-from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast
+from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast, PasswordChange
 from app.user_api import UserResource
 from app.token import send_confirm_message, confirm_token, send_recovery_password
 
@@ -32,11 +32,11 @@ def registration():
             flash('Регистрация прошла успешно', 'success')
             user = User.get_query().get(response.json()['user_id'])
             login_user(user)
-            result = send_confirm_message(user)
-            if result['status']:
-                flash(result['message'], 'warning')
-            else:
-                flash(result['message'], 'success')
+            # result = send_confirm_message(user)
+            # if result['status']:
+            #     flash(result['message'], 'warning')
+            # else:
+            #     flash(result['message'], 'success')
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')
@@ -92,13 +92,7 @@ def login():
             'message': {'Ошибка': 'Пользователь с таким логином не найден'}
         }), 400)
     elif request.method == 'POST' and not authorization_form.validate_on_submit():
-        errors = {}
-        for error in authorization_form.login.errors:
-            errors['login'] = error
-        for error in authorization_form.password.errors:
-            errors['password'] = error
-        if errors:
-            return make_response(jsonify({'message': errors}), 400)
+        return make_response(jsonify({'message': authorization_form.errors}), 400)
     elif request.method == 'GET':
         return render_template('login.html', authorization_form=authorization_form, title=title)
 
@@ -110,12 +104,13 @@ def user_page(user_id, post_page=1):
     if user_id != int(current_user.get_id()) and current_user.importance not in [1, 2]:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
+    password_form = PasswordChange()
     user = User.get_query().get_or_404(user_id)
     if user.importance in [1, 2]:
         posts = user.posts.order_by(desc(Post.publication_date)
                                     ).paginate(post_page, app.config.get('USERS_ON_USER_PAGE', 10))
-        return render_template('user.html', user=user, posts=posts)
-    return render_template('user.html', user=user)
+        return render_template('user.html', user=user, posts=posts, password_form=password_form)
+    return render_template('user.html', user=user, password_form=password_form)
 
 
 @blueprint_user.route('/activate-email')
@@ -176,6 +171,11 @@ def edit_user():
         if not current_user.confirmed:
             return make_response(jsonify({
                 'message': {'Ошибка': 'Аккаунт не подтвержден'}
+            }), 400)
+        password_form = PasswordChange()
+        if not password_form.validate_on_submit():
+            return make_response(jsonify({
+                'message': password_form.errors
             }), 400)
         if not current_user.check_password(old_password):
             return make_response(jsonify({

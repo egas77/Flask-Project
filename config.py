@@ -1,4 +1,5 @@
 class Config(object):
+    # App settings
     SECRET_KEY = 'LMTk06lLwpD4HlZl'
     SECURITY_PASSWORD_SALT = 'iZRMbSOFBYu4xoOW'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///data\\db\\db.sqlite'
@@ -16,10 +17,12 @@ class Config(object):
     MAIL_DEFAULT_SENDER = 'blogflask89@gmail.com'
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
 
+    # User settings
     POSTS_ON_PAGE = 5
     COMMENTS_ON_PAGE = 10
     USERS_ON_PAGE = 20
     POSTS_ON_USER_PAGE = 10
+    FEEDBACK_MAIL = 'ebedak2003@yandex.ru'
 
 
 class Testing(Config):

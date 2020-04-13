@@ -19,6 +19,7 @@
             {% if current_user.importance == 2 %}
                 <a href="{{ url_for('user.list_user') }}" class="nav-item">Пользователи</a>
             {% endif %}
+            <a href="{{ url_for('feedback') }}" class="nav-item">Обратная связь</a>
         </nav>
         <div class="user-block">
             {% if current_user.is_authenticated %}
