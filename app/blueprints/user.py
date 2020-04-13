@@ -32,11 +32,11 @@ def registration():
             flash('Регистрация прошла успешно', 'success')
             user = User.get_query().get(response.json()['user_id'])
             login_user(user)
-            # result = send_confirm_message(user)
-            # if result['status']:
-            #     flash(result['message'], 'warning')
-            # else:
-            #     flash(result['message'], 'success')
+            result = send_confirm_message(user)
+            if result['status']:
+                flash(result['message'], 'warning')
+            else:
+                flash(result['message'], 'success')
             return make_response(jsonify({
                 'redirect': True,
                 'redirect_url': url_for('index')

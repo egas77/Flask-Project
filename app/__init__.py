@@ -6,10 +6,10 @@ from flask_mail import Mail
 from flask_restful import Api
 from flask_script import Manager
 
-from config import Develop, Testing
+from config import Production
 
 app = Flask(__name__)
-app.config.from_object(Develop)
+app.config.from_object(Production)
 
 db = SQLAlchemy(app)
 
