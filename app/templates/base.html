@@ -15,11 +15,11 @@
 <header>
     <div class="content-header" style="max-width: 1300px">
         <nav>
-            <a href="{{ url_for('index') }}" class="nav-item">Главная</a>
+            <a href="{{ url_for('main.index') }}" class="nav-item">Главная</a>
             {% if current_user.importance == 2 %}
                 <a href="{{ url_for('user.list_user') }}" class="nav-item">Пользователи</a>
             {% endif %}
-            <a href="{{ url_for('feedback') }}" class="nav-item">Обратная связь</a>
+            <a href="{{ url_for('main.feedback') }}" class="nav-item">Обратная связь</a>
         </nav>
         <div class="user-block">
             {% if current_user.is_authenticated %}

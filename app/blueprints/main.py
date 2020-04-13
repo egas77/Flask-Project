@@ -1,24 +1,24 @@
-from flask import render_template, flash, redirect, url_for, request
+from app import app, send_mail
+from app.models import Post
+
+from flask import Blueprint, request, render_template, url_for, redirect, flash
 from flask_login import current_user
 from flask_mail import Message
 from sqlalchemy import desc
 
-import os
-
-from app import app, send_mail
-from app.models import Post
+main_blueprint = Blueprint('main', __name__, template_folder='templates')
 
 
-@app.route('/')
-@app.route('/index')
-@app.route('/index/<int:page>')
+@main_blueprint.route('/')
+@main_blueprint.route('/index')
+@main_blueprint.route('/index/<int:page>')
 def index(page=1):
     posts = Post.get_query().order_by(desc(Post.publication_date)
                                       ).paginate(page, app.config.get('POSTS_ON_PAGE', 5), True)
     return render_template('index.html', posts=posts)
 
 
-@app.route('/feedback', methods=['GET', 'POST'])
+@main_blueprint.route('/feedback', methods=['GET', 'POST'])
 def feedback():
     if not current_user.is_authenticated:
         flash('Авторизуйтесь для использования обратной связи', 'warning')
@@ -46,8 +46,3 @@ def page_not_found(error):
 def login_error(error):
     flash(error, 'error')
     return render_template('errorhandler.html', error=error), 401
-
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(port=port)

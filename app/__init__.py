@@ -30,11 +30,13 @@ api = Api(app)
 from app import models, user_api, post_api
 from app.blueprints.user import blueprint_user
 from app.blueprints.post import blueprint_post
+from app.blueprints.main import main_blueprint
 
 api.add_resource(user_api.UserResource, '/user-api', '/user-api/<int:user_id>')
 api.add_resource(post_api.PostResource, '/post-api', '/post-api/<int:post_id>')
 app.register_blueprint(blueprint_user)
 app.register_blueprint(blueprint_post)
+app.register_blueprint(main_blueprint)
 
 migrate = Migrate()
 with app.app_context():
