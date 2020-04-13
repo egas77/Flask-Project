@@ -39,7 +39,7 @@ def registration():
                 flash(result['message'], 'success')
             return make_response(jsonify({
                 'redirect': True,
-                'redirect_url': url_for('index')
+                'redirect_url': url_for('main.index')
             }), 200)
         else:
             return make_response(jsonify(response.json()), response.status_code)
@@ -66,7 +66,7 @@ def confirm_email(token):
         session = get_session()
         session.commit()
         flash('Учетная запись успешно подтверждена', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 
 @blueprint_user.route('/login', methods=['GET', 'POST'])
@@ -83,7 +83,7 @@ def login():
                 login_user(user, remember=remember)
                 return make_response(jsonify({
                     'redirect': True,
-                    'redirect_url': url_for('index')
+                    'redirect_url': url_for('main.index')
                 }), 200)
             return make_response(jsonify({
                 'message': {'Ошибка': 'Неверный пароль'}
@@ -227,7 +227,7 @@ def recovery_password_first():
         flash(result['message'], 'success')
         return make_response(jsonify({
             'redirect': True,
-            'redirect_url': url_for('index')
+            'redirect_url': url_for('main.index')
         }), 200)
     return render_template('recovery_password_first.html', recovery_form=recovery_form,
                            title='Восстановить пароль')
@@ -247,7 +247,7 @@ def recovery_password_last(token):
             flash('Ваш пароль успешно изменен', 'success')
             return make_response(jsonify({
                 'redirect': True,
-                'redirect_url': url_for('index')
+                'redirect_url': url_for('main.index')
             }), 200)
         else:
             return make_response(jsonify(response.json()), 400)
