@@ -2,6 +2,7 @@ from flask import make_response, jsonify
 from flask_restful import Resource, reqparse, abort
 from app import get_session
 from app.models import User
+import datetime
 
 
 class UserResource(Resource):
@@ -45,6 +46,7 @@ class UserResource(Resource):
         user.nickname = args['nickname']
         user.login = args['login']
         user.email = args['email']
+        user.create_date = datetime.datetime.now()
         user.set_password(args['password'])
         user.confirmed = False
         session = get_session()

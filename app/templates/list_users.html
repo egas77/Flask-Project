@@ -33,7 +33,7 @@
                         {% elif user.importance == 2 %}
                             <td>Администратор</td>
                         {% endif %}
-                        <td>{{ user.registration_date }}</td>
+                        <td>{{ user.create_date.strftime('%d.%m.%Y') }}</td>
                         {% if user.subscription %}
                             <td>Да</td>
                         {% else %}

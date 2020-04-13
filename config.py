@@ -19,6 +19,7 @@ class Config(object):
     POSTS_ON_PAGE = 5
     COMMENTS_ON_PAGE = 10
     USERS_ON_PAGE = 20
+    POSTS_ON_USER_PAGE = 5
 
 
 class Testing(Config):

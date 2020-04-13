@@ -9,11 +9,11 @@
     <div class="main-item shadow">
         <div class="content-main-item">
             {% if user.importance == 0 %}
-                <h1>Пользователь: {{ user.login }}</h1>
+                <h2>Пользователь: {{ user.login }}</h2>
             {% elif user.importance == 1 %}
-                <h1>Модератор: {{ user.login }}</h1>
+                <h2>Модератор: {{ user.login }}</h2>
             {% elif user.importance == 2 %}
-                <h1>Администратор: {{ user.login }}</h1>
+                <h2>Администратор: {{ user.login }}</h2>
             {% endif %}
             <div class="user-settings">
                 <div class="avatar-block">
@@ -156,7 +156,7 @@
                         {% endif %}
                     </div>
                     <div class="info-elem">
-                        <span>Дата регистрации: {{ user.registration_date }}</span>
+                        <span>Дата регистрации: {{ user.create_date.strftime('%d.%m.%Y') }}</span>
                     </div>
                     <div class="info-elem sub-block" id="sub-block">
                         {% if user.subscription %}
@@ -202,6 +202,32 @@
             </div>
         </div>
     </div>
+
+    {% if user.importance in [1, 2] %}
+        <div class="main-item shadow">
+            <div class="content-main-item">
+                <h2>Посты</h2>
+                {% if posts.items %}
+                    <table class="post-table">
+                        <tr>
+                            <th>Заголовок</th>
+                            <th>Дата публикация</th>
+                        </tr>
+                        {% for post in posts.items %}
+                            <tr>
+                                <td><a href="{{ url_for('post.view_post', post_id=post.id) }}">{{ post.title }}</a></td>
+                                <td>{{ post.publication_date.strftime('%d.%m.%Y') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% else %}
+                    <div style="text-align: center">
+                        <h3 style="color: #827c82">Постов нет</h3>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
     <template id="subscribe-off">
         <div class="sub-active">

@@ -103,12 +103,16 @@ def login():
 
 
 @blueprint_user.route('/user/<int:user_id>')
+@blueprint_user.route('/user/<int:user_id>/<int:post_page>')
 @login_required
-def user_page(user_id):
+def user_page(user_id, post_page=1):
     if user_id != int(current_user.get_id()) and current_user.importance not in [1, 2]:
         flash('У вас нет прав доступа к этому аккаунту', 'error')
         return redirect(url_for('index'))
     user = User.get_query().get_or_404(user_id)
+    if user.importance in [1, 2]:
+        posts = user.posts.paginate(post_page, app.config.get('USERS_ON_USER_PAGE', 5))
+        return render_template('user.html', user=user, posts=posts)
     return render_template('user.html', user=user)
 
 

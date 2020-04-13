@@ -14,10 +14,9 @@ class User(db.Model, UserMixin, SerializerMixin):
     password_hash = db.Column(db.String)
     nickname = db.Column(db.String)
     importance = db.Column(db.Integer, default=0)
-    create_date = db.Column(db.DateTime, default=datetime.datetime.now())
+    create_date = db.Column(db.DateTime)
     confirmed = db.Column(db.Boolean, default=False)
     confirmed_date = db.Column(db.DateTime)
-    registration_date = db.Column(db.Date, default=datetime.date.today())
     subscription = db.Column(db.Boolean, default=False)
     image_file = db.Column(db.String)
 

@@ -141,28 +141,33 @@
     font-size: 1.15em;
 }
 
-.user-table {
+.user-table,
+.post-table {
     width: 100%;
     text-align: center;
     border-collapse: collapse;
 }
 
 
-.user-table th {
+.user-table th,
+.post-table th {
     padding-bottom: 10px;
 }
 
-.user-table td {
+.user-table td,
+.post-table td {
     padding: 10px 0 10px;
     border-bottom: 1px solid rgba(130, 124, 130, 0.4);
 }
 
-.user-table tr:last-of-type td {
+.user-table tr:last-of-type td,
+.post-table tr:last-of-type td {
     border: none;
 }
 
 
-.user-table a {
+.user-table a,
+.post-table a {
     color: inherit;
     border-bottom: 1px solid #282536;
 }
