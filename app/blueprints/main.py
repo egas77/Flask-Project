@@ -22,7 +22,7 @@ def index(page=1):
 def feedback():
     if not current_user.is_authenticated:
         flash('Авторизуйтесь для использования обратной связи', 'warning')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     if request.method == 'POST':
         content = request.form.get('content', None)
         template = render_template('feedback_template.html', content=content)
