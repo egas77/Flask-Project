@@ -20,7 +20,6 @@ def index(page=1):
 
 
 @app.route('/feedback', methods=['GET', 'POST'])
-@login_required
 def feedback():
     if not current_user.is_authenticated:
         flash('Авторизуйтесь для использования обратной связи', 'warning')

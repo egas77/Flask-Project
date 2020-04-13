@@ -5,7 +5,7 @@
 {% block main %}
     <div class="main-item shadow">
         <div class="content-main-item">
-            <h2>Обрраная связь</h2>
+            <h2>Обратная связь</h2>
             {% if current_user.is_authenticated %}
                 {% if current_user.confirmed %}
                     <form id="feedback-form">
@@ -19,10 +19,14 @@
                         </div>
                     </form>
                 {% else %}
-
+                    <div style="text-align: center">
+                        <h3 style="color: #827c82">Подтвердите ваш аккаунт</h3>
+                    </div>
                 {% endif %}
             {% else %}
-
+                <div style="text-align: center">
+                    <h3 style="color: #827c82">Авторизуйтесь</h3>
+                </div>
             {% endif %}
         </div>
     </div>
