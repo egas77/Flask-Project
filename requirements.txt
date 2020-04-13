@@ -12,7 +12,6 @@ Flask==1.1.1
 Flask-Login==0.5.0
 Flask-Mail==0.9.1
 Flask-Migrate==2.5.3
-flask-ngrok==0.0.25
 Flask-RESTful==0.3.8
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.4.1

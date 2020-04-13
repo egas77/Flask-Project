@@ -4,7 +4,6 @@ from flask_mail import Message
 from sqlalchemy import desc
 
 import os
-import flask_ngrok
 
 from app import app, send_mail
 from app.models import Post
