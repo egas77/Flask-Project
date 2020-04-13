@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, make_response, jsonify, url_for, \
     redirect, abort
 from flask_login import login_required, login_user, logout_user, current_user
+from sqlalchemy import desc
 from app import login_manager, api, get_session, app
-from app.models import User
+from app.models import User, Post
 from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast
 from app.user_api import UserResource
 from app.token import send_confirm_message, confirm_token, send_recovery_password
@@ -111,7 +112,8 @@ def user_page(user_id, post_page=1):
         return redirect(url_for('index'))
     user = User.get_query().get_or_404(user_id)
     if user.importance in [1, 2]:
-        posts = user.posts.paginate(post_page, app.config.get('USERS_ON_USER_PAGE', 5))
+        posts = user.posts.order_by(desc(Post.publication_date)
+                                    ).paginate(post_page, app.config.get('USERS_ON_USER_PAGE', 10))
         return render_template('user.html', user=user, posts=posts)
     return render_template('user.html', user=user)
 

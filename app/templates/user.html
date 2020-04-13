@@ -215,7 +215,9 @@
                         </tr>
                         {% for post in posts.items %}
                             <tr>
-                                <td><a href="{{ url_for('post.view_post', post_id=post.id) }}">{{ post.title }}</a></td>
+                                <td>
+                                    <a href="{{ url_for('post.view_post', post_id=post.id) }}">{{ post.title }}</a>
+                                </td>
                                 <td>{{ post.publication_date.strftime('%d.%m.%Y') }}</td>
                             </tr>
                         {% endfor %}
@@ -226,6 +228,27 @@
                     </div>
                 {% endif %}
             </div>
+        </div>
+        <div class="paginate" style="text-align: right">
+            {% if posts.has_prev %}
+                <a class="page-link"
+                   href="{{ url_for('user.user_page', user_id=user.id, post_page=posts.prev_num) }}"><</a>
+            {% endif %}
+            {% for page in posts.iter_pages(left_edge=1, left_current=1, right_current=2, right_edge=1) %}
+                {% if page %}
+                    {% if page != posts.page %}
+                        <a class="page-link"
+                           href="{{ url_for('user.user_page', user_id=user.id, post_page=page) }}">{{ page }}</a>
+                    {% else %}
+                        <strong>{{ page }}</strong>
+                    {% endif %}
+                {% else %}
+                    <span class=ellipsis>…</span>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <a class="page-link" href="{{ url_for('user.user_page', user_id=user.id, post_page=posts.next_num) }}">></a>
+            {% endif %}
         </div>
     {% endif %}
 
