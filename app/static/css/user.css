@@ -2,7 +2,7 @@
     position: relative;
     display: inline-block;
     width: 25%;
-    margin-bottom: auto;
+    margin-bottom: 20px;
 }
 
 
@@ -46,12 +46,14 @@
 .info-block {
     display: inline-block;
     padding-left: 40px;
-    width: 74%;
+    width: 75%;
 }
 
 .user-settings {
     margin: 40px;
     display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 
@@ -120,4 +122,21 @@
 
 .modal-visible {
     display: block;
+}
+
+
+.importance-block {
+    width: 25%;
+    text-align: center;
+}
+
+.importance-block select {
+    width: 65%;
+    font-size: 1.15em;
+    margin-right: 5px;
+}
+
+.importance-block button {
+    color: #FDF2FF;
+    font-size: 1.15em;
 }

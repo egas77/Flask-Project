@@ -102,8 +102,6 @@ $(document).ready(function () {
     let emailModalForm = emailModal.find('form');
     let emailOpenModelButton = $('#open-model-email');
     let emailString = $('#email');
-    console.log(emailModal);
-    console.log(emailOpenModelButton);
     emailOpenModelButton.bind('click', function () {
         emailModal.addClass('modal-visible');
     });
@@ -133,8 +131,6 @@ $(document).ready(function () {
     let passwordModalCloseButton = passwordModal.find('.close-model');
     let passwordModalForm = passwordModal.find('form');
     let passwordOpenModelButton = $('#open-model-password');
-    console.log(passwordModal);
-    console.log(passwordOpenModelButton);
     passwordOpenModelButton.bind('click', function () {
         passwordModal.addClass('modal-visible');
     });
@@ -149,11 +145,33 @@ $(document).ready(function () {
             data: passwordModalForm.serialize()
         }).done(function () {
             passwordModal.removeClass('modal-visible');
+            createFlash('success', 'Пароль успешно изменен');
         }).fail(function (error) {
             for (let key in error.responseJSON.message) {
                 let message = key + ': ' + error.responseJSON.message[key];
                 createFlash('error', message);
             }
+        });
+    });
+
+    let importanceButton = $('#importance-button');
+    let importanceSelect = $('select#importance');
+    let userId = $('#user-id').val();
+    importanceButton.click(function () {
+        let optionImportanceSelect = $('select#importance option:selected');
+        let text = optionImportanceSelect.text();
+        let importanceValue = importanceSelect.val();
+        $.ajax({
+            url: '/edit-importance',
+            type: 'POST',
+            data: {
+                importance: importanceValue,
+                user_id: userId
+            }
+        }).done(function () {
+            document.location.href = `/user/${userId}`;
+        }).fail(function () {
+
         });
     });
 });

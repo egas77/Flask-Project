@@ -184,6 +184,22 @@ def edit_user():
         return make_response(jsonify(response.json()), 400)
 
 
+@blueprint_user.route('/edit-importance', methods=['POST'])
+def edit_importance():
+    user_id = request.form.get('user_id')
+    user = User.get_query().get(user_id)
+    if not user:
+        return make_response(jsonify({
+            'message': 'Пользователь не найден'
+        }), 200)
+    response = requests.put(api.url_for(UserResource, user_id=user_id, _external=True),
+                            json=request.form.to_dict())
+    if response:
+        return make_response(jsonify({'message': 'status ok'}), 200)
+    else:
+        return make_response(jsonify(response.json()), 400)
+
+
 @blueprint_user.route('/logout')
 @login_required
 def logout():
