@@ -16,13 +16,13 @@ class Config(object):
     MAIL_USERNAME = 'blogflask89@gmail.com'
     MAIL_DEFAULT_SENDER = 'blogflask89@gmail.com'
     MAIL_PASSWORD = 'av8-JJm-JFY-jiS'
+    FEEDBACK_MAIL = 'ebedak2003@yandex.ru'
 
     # User settings
     POSTS_ON_PAGE = 5
     COMMENTS_ON_PAGE = 10
     USERS_ON_PAGE = 20
     POSTS_ON_USER_PAGE = 10
-    FEEDBACK_MAIL = 'ebedak2003@yandex.ru'
 
 
 class Testing(Config):

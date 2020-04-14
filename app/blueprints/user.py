@@ -4,7 +4,8 @@ from flask_login import login_required, login_user, logout_user, current_user
 from sqlalchemy import desc
 from app import login_manager, api, get_session, app
 from app.models import User, Post
-from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast, PasswordChange
+from app.forms import RegisterForm, AuthorizationForm, RecoveryPasswordFirst, RecoveryPasswordLast, \
+    PasswordChange
 from app.user_api import UserResource
 from app.token import send_confirm_message, confirm_token, send_recovery_password
 
@@ -42,9 +43,13 @@ def registration():
                 'redirect_url': url_for('main.index')
             }), 200)
         else:
-            return make_response(jsonify(response.json()), response.status_code)
+            errors = response.json()
+            errors.pop('recaptcha_field', None)
+            return make_response(jsonify(errors), response.status_code)
     elif request.method == 'POST' and not register_form.validate_on_submit():
-        return make_response(jsonify({'message': register_form.errors}), 400)
+        errors = register_form.errors
+        errors.pop('recaptcha_field', None)
+        return make_response(jsonify({'message': errors}), 400)
     elif request.method == 'GET':
         return render_template('registration.html', register_form=register_form, title=title)
 
@@ -236,7 +241,7 @@ def recovery_password_first():
 @blueprint_user.route('/recovery-password-last/<token>', methods=['GET', 'POST'])
 def recovery_password_last(token):
     email = confirm_token(token)
-    if not email:
+    if not email and request.method == 'GET':
         return redirect(url_for('main.index'))
     user = User.get_query().filter(User.email == email).first()
     recovery_form = RecoveryPasswordLast()
@@ -251,8 +256,12 @@ def recovery_password_last(token):
             }), 200)
         else:
             return make_response(jsonify(response.json()), 400)
-    return render_template('recovery_password_last.html', recovery_form=recovery_form,
-                           title='Новый пароль', token=token)
+    if request.method == 'GET':
+        return render_template('recovery_password_last.html', recovery_form=recovery_form,
+                               title='Новый пароль', token=token)
+    return make_response(jsonify({
+        'message': recovery_form.errors
+    }), 400)
 
 
 @blueprint_user.route('/list_user')

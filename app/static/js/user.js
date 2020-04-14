@@ -48,6 +48,8 @@ $(document).ready(function () {
     let subOffTemplate = $('template#subscribe-off');
 
     function subscribe() {
+        subscribeButton.addClass('disable-button');
+        subscribeButton.attr('disabled', true);
         $.ajax({
             url: '/subscribe',
             type: 'GET'
@@ -63,6 +65,9 @@ $(document).ready(function () {
             subscribeButton.bind('click', subscribe);
         }).fail(function () {
             console.log('Fail subscribe');
+        }).always(function () {
+            subscribeButton.removeClass('disable-button');
+            subscribeButton.attr('disabled', false);
         });
     }
 

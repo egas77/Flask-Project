@@ -1,5 +1,5 @@
 from app import manager, get_session
-from app.models import User
+from app.models import User, Post, Comment
 
 from flask_migrate import MigrateCommand
 import requests
@@ -77,11 +77,28 @@ def delete_id(user_id):
 
 @manager.command
 def list_users():
+    """List users"""
     users = User.get_query().all()
     for user in users:
         print(user)
     if not users:
         print('Users not found')
+
+
+@manager.command()
+def clear_data_base():
+    """Clear all data in data base"""
+    session = get_session()
+    comments = Comment.get_query().all()
+    for comment in comments:
+        session.delete(comment)
+    posts = Post.get_query().all()
+    for post in posts:
+        session.delete(post)
+    users = User.get_query().all()
+    for user in users:
+        session.delete(users)
+    session.commit()
 
 
 if __name__ == '__main__':
