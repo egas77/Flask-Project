@@ -59,7 +59,7 @@ def registration():
 def confirm_email(token):
     email = confirm_token(token)
     if not email:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     user = User.get_query().filter(User.email == email).first_or_404()
     if current_user.email != user.email:
         abort(401)
