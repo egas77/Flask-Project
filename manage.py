@@ -85,7 +85,7 @@ def list_users():
         print('Users not found')
 
 
-@manager.command()
+@manager.command
 def clear_data_base():
     """Clear all data in data base"""
     session = get_session()
@@ -97,7 +97,7 @@ def clear_data_base():
         session.delete(post)
     users = User.get_query().all()
     for user in users:
-        session.delete(users)
+        session.delete(user)
     session.commit()
 
 
