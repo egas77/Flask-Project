@@ -15,6 +15,8 @@
     7. `MAIL_PASSWORD` - пароль от электронной почты
 4. Укажите почту для обратной связи в пункте `FEEDBACK_MAIL`
 5. Настройте `RECAPTCHA_PUBLIC_KEY` и `RECAPTCHA_PRIVATE_KEY` в разделе `App settings`
+6. Укажите `SECRET_KEY` - случайная строка
+7. Укажите `SECURITY_PASSWORD_SALT` - случайная строка
 
 
 ## Дополнительные настройки
