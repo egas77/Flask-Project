@@ -113,7 +113,7 @@ def user_page(user_id, post_page=1):
     user = User.get_query().get_or_404(user_id)
     if user.importance in [1, 2]:
         posts = user.posts.order_by(desc(Post.publication_date)
-                                    ).paginate(post_page, app.config.get('USERS_ON_USER_PAGE', 10))
+                                    ).paginate(post_page, app.config.get('POSTS_ON_USER_PAGE', 10))
         return render_template('user.html', user=user, posts=posts, password_form=password_form)
     return render_template('user.html', user=user, password_form=password_form)
 
